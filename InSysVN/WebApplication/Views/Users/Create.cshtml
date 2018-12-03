@@ -1,0 +1,184 @@
+﻿@model LIB.UserEntity
+@{
+    ViewBag.Title = "Tạo tài khoản";
+}
+
+<div class="row">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>@ViewBag.Title</h2>
+        </div>
+        <div class="x_content">
+            @using (Html.BeginForm("Create", "User", FormMethod.Post, new { @class = "form-horizontal", role = "form", autocomplete = "off" }))
+            {
+                <div class="form-group">
+                    <div class="col-md-10 col-md-offset-2">
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary("", new { @class = "text-danger" })
+                        @Html.HiddenFor(c => c.Id)
+                    </div>
+                </div>
+                //Avatar
+                <div class="form-group">
+                    @Html.LabelFor(c => c.AvatarImg, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.HiddenFor(c => c.AvatarImg, new { @Value = Model.AvatarImg ?? "/Assets/images/Avatar-Thumbnail.png" })
+                        <img style="cursor:pointer; width: 180px" id="ImgAvatar" class="thumbnail" src="@(Model.AvatarImg ?? "/Assets/images/Avatar-Thumbnail.png")" />
+                    </div>
+                </div>
+                //FullName
+                <div class="form-group">
+                    @Html.LabelFor(c => c.FullName, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(c => c.FullName, new { @class = "form-control" })
+                    </div>
+                </div>
+                //UserName
+                <div class="form-group">
+                    @Html.LabelFor(c => c.UserName, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(c => c.UserName, new { @class = "form-control", autocomplete = "off" })
+                    </div>
+                </div>
+                //Password
+                <div class="form-group">
+                    @Html.LabelFor(c => c.Password, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.PasswordFor(c => c.Password, new { @class = "form-control", autocomplete = "off" })
+                    </div>
+                </div>
+                //Gender
+                <div class="form-group">
+                    @Html.LabelFor(c => c.Gender, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        <div class="radio-inline">
+                            <label>
+                                @Html.RadioButtonFor(c => c.Gender, true)
+                                Nam
+                            </label>
+                        </div>
+                        <div class="radio-inline">
+                            <label>
+                                @Html.RadioButtonFor(c => c.Gender, false)
+                                Nữ
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                //Phone
+                //BirthDay
+                <div class="form-group">
+                    @Html.LabelFor(c => c.Birthday, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-2">
+                        @Html.EditorFor(c => c.Birthday, new { @class = "form-control" })
+                    </div>
+                </div>
+                //Email
+                <div class="form-group">
+                    @Html.LabelFor(c => c.Email, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(c => c.Email, new { @class = "form-control" })
+                    </div>
+                </div>
+                //Address
+                <div class="form-group">
+                    @Html.LabelFor(c => c.Address, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(c => c.Address, new { @class = "form-control" })
+                    </div>
+                </div>
+                //Roles
+                <div class="form-group">
+                    <label class="col-md-2 control-label">
+                        Select Roles
+                    </label>
+                    <div class="col-md-10">
+                        @foreach (var item in (IEnumerable<SelectListItem>)ViewBag.RolesList)
+                        {
+                            <input type="checkbox" name="SelectedRole" value="@item.Value" checked="@item.Selected" class="checkbox-inline" />
+                            @Html.Label(item.Text, new { @class = "control-label" })
+                        }
+                    </div>
+                </div>
+                //Submit
+                <div class="form-group">
+                    <div class="col-md-2">
+                        @Html.ActionLink("Quay lại danh sách", "Index", null, new { @class = "btn btn-link" })
+                    </div>
+                    <div class="col-md-10">
+                        <input type="submit" value="Save" class="btn btn-default" />
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.datePicker').datepicker({
+                format: "yyyy-mm-dd",
+                weekStart: 8,
+                maxViewMode: 2,
+                todayBtn: "linked",
+                calendarWeeks: true,
+                autoclose: true,
+                todayHighlight: true
+            });
+            $("#ImgAvatar").click(function (event) {
+                event.stopPropagation();
+                event.preventDefault();
+                var AvatarCropper;
+                var AvatarCropperSuccess = function (data) {
+                    if (data.success || data.Success) {
+                        data = data.data || data.Data;
+                        var link = data.fileLink || data.FileLink;
+                        $("#ImgAvatar").attr("src", link);
+                        $("#AvatarImg").val(link);
+                    }
+                    else {
+                        Notification.Error("Không thể thay ảnh đại diện.");
+                    }
+                    avatarPopup.remove();
+                }
+                var avatarPopup = modal.LoadAjax({
+                    url: "/Upload/UploadAvatar",
+                    title: "Ảnh đại diện",
+                    classname: "modal-xs",
+                    buttonClose: {
+                        Text: "Đóng",
+                        isShow: false,
+                        isIconX: true
+                    },
+                    buttonOk: {
+                        Text: "Đồng ý",
+                        isShow: false,
+                    },
+                    onload: function () {
+                        setTimeout(function () {
+                            AvatarCropper = CropperObj.Avatar({
+                                elemRoot: "#AvatarCopper",
+                                elem: "#AvatarCopper #image_cropper",
+                                aspectRatio: 1 / 1,
+                                width: 500,
+                                height: 400,
+                                viewMode: 2,
+                                dragMode: "move",
+                                callback: AvatarCropperSuccess
+                            });
+
+                            $("#AvatarCopper #Ok1").click(function () {
+                                AvatarCropper.UploadCropper();
+                            });
+                        }, 300);
+                    }
+                });
+            });
+        });
+    </script>
+}
+@section styles{
+    <link href="~/Content/bootstrap-datepicker3.css" rel="stylesheet" />
+}

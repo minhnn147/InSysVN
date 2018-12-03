@@ -1,0 +1,75 @@
+﻿@using LIB.RoleModule
+@using LIB.Model
+@model List<RoleModuleEntity>
+@{
+    ViewBag.Title = "Quyền truy cập hệ thống";
+}
+@section styles_plugins{
+    <link rel="stylesheet" type="text/css" href="~/Content/css/select2.min.css" />
+}
+@section scripts_plugins{
+    <script src="~/Content/js/select2.full.min.js"></script>
+}
+@section scripts{
+    <script src="~/Scripts/controller/RoleModule.js"></script>
+}
+<style>
+    table tr th, table tr td {
+        text-align: center;
+    }
+</style>
+<div class="panel panel-default">
+    <div class="panel-heading">Phân quyền hệ thống</div>
+    <div class="panel-body">
+        <div class="input-group">
+            <span class="input-group-addon">Quyền</span>
+            @Html.DropDownList("selectRoles", new SelectList(ViewBag.Roles, "Id", "DisplayName"), new { @class = "form-control" })
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalUpdateModal">Gán Module Cho Quyền</button>
+            </span>
+        </div>
+        <div id="tblRoleModule"></div>
+        <div id="modalUpdateModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Gán Module Cho Quyền</h4>
+                    </div>
+                    <form id="frmAddModuleForRole">
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label for="drdRoles">Quyền</label>
+                                        <select id="drdRoles" class="form-control" style="width:100%">
+                                            @foreach (var item in ViewBag.Roles as List<RoleEntity>)
+                                            {
+                                                <option value="@item.Id">@item.DisplayName</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label for="drdModules">Modules</label>
+                                        <select id="drdModules" class="form-control" style="width:100%">
+                                            @foreach (var module in ViewBag.Modules as List<ModuleEntity>)
+                                            {
+                                                <option value="@module.Id">@module.DisplayName</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                            <button type="submit" class="btn btn-success">Cập Nhật</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

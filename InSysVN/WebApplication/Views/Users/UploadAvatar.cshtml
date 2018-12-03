@@ -1,0 +1,41 @@
+﻿<link href="~/Content/css/cropper.css" rel="stylesheet" />
+<div id="AvatarCopper">
+    <div class="row">
+        <div class="col-md-12 text-center" style="width: 100%; height: 300px">
+            <img id="image_cropper" src="" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="btn-group">
+                <label class="btn btn-primary btn-upload" for="inputImage" title="Upload image file">
+                    <input class="sr-only" id="inputImage" name="file" type="file" accept="image/*">
+                    <span class="fa fa-folder-open"></span>
+                </label>
+
+                <button class="btn btn-primary" data-method="zoom" data-option="0.1" type="button" title="Zoom In">
+                    <span class="fa fa-search-plus"></span>
+                </button>
+                <button class="btn btn-primary" data-method="zoom" data-option="-0.1" type="button" title="Zoom Out">
+                    <span class="fa fa-search-minus"></span>
+                </button>
+
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 15px">
+        <div class="col-md-12 text-right">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            <button type="button" class="btn btn-primary" id="Ok1">Đồng ý</button>
+        </div>
+    </div>
+</div>
+<script src="~/Content/js/cropper.js"></script>
+<script src="~/Scripts/controller/avatar.js"></script>
+<script>
+    Avatar.Load();
+</script>
+
+
+
+

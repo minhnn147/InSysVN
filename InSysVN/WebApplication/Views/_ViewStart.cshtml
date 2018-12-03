@@ -1,0 +1,6 @@
+﻿@using WebApplication.Authorize
+@{
+    var acc = User as CustomPrincipal;
+    if (acc == null) { Layout = "~/Views/Shared/_LayoutLogin.cshtml"; }
+    else { Layout = "~/Views/Shared/_Layout.cshtml"; }
+}

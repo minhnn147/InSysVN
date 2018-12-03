@@ -1,0 +1,25 @@
+﻿<div id="ProductsImport" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Danh Sách Sản Phẩm Import</h4>
+            </div>
+            <div class="modal-body">
+                <div id="txtLstError" data-toggle="collapse" data-target="#ImportError" style="text-align:center;cursor:pointer;padding:5px;font-weight:bold">Danh sách đọc file lỗi</div>
+
+                <div id="ImportError" class="collapse">
+                    <table id="tblImportError" class="table table-hover"></table>
+                </div>
+                <table class="table" id="tblProductImport"></table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="$('#tableProducts').bootstrapTable('refresh')">Đóng</button>
+                <button type="submit" class="btn btn-success" id="btnAddProductsImport">Thêm Sản Phẩm</button>
+            </div>
+        </div>
+    </div>
+</div>
+

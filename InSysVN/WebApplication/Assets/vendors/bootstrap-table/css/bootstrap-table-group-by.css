@@ -1,0 +1,32 @@
+.bootstrap-table .table > tbody > tr.groupBy {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.bootstrap-table .table > tbody > tr.groupBy.expanded {
+    
+}
+
+.bootstrap-table .table > tbody > tr.groupBy.expanded td:nth-child(1):after
+{
+	font-family: 'Glyphicons Halflings';
+	content: "\e072";
+	float: right;
+	color: #b0c5d8;
+	font-size: 18px;
+	line-height: 22px;
+
+	-webkit-transform: rotate(-90deg);
+	-moz-transform:    rotate(-90deg);
+	-ms-transform:     rotate(-90deg);
+	-o-transform:      rotate(-90deg);
+	transform:         rotate(-90deg);
+}
+.bootstrap-table .table > tbody > tr.groupBy td:nth-child(1):after
+{
+	-webkit-transform: rotate(90deg);
+	-moz-transform:    rotate(90deg);
+	-ms-transform:     rotate(90deg);
+	-o-transform:      rotate(90deg);
+	transform:         rotate(90deg);
+}

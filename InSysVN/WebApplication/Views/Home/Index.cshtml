@@ -1,0 +1,269 @@
+﻿@using LIB.Warehouses
+@using WebApplication.Authorize
+@{
+    ViewBag.Title = "Trang Chủ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var acc = User as CustomPrincipal;
+    var AllWarehouse = ViewBag.AllWarehouse as List<WarehousesEntity>;
+}
+<div class="content_body">
+    <div class="panel-title">
+        <table style="width:100%">
+            <tr>
+                <td>THỐNG KÊ</td>
+                <td>
+                    <div class="form-inline">
+                        <div class="input-group pull-right" style="margin-bottom:0;">
+                            <span class="input-group-btn btn-group-sm">
+                                <label class="btn btn-default"><input type="radio" value="1" name="rdSearch" checked /> Hôm nay</label>
+                                <label class="btn btn-default"><input type="radio" value="2" name="rdSearch" /> Tuần này</label>
+                                <label class="btn btn-default"><input type="radio" value="3" name="rdSearch" /> Tháng này</label>
+                                <label class="btn btn-default"><input type="radio" value="4" name="rdSearch" /> Năm nay</label>
+                            </span>
+                        </div>
+                        @if (acc.IsSupperAdmin)
+                        {
+                            <div class="input-group pull-left">
+                                <span class="input-group-addon">ShowRoom</span>
+                                <select class="form-control" id="drdWarehouse">
+                                    <option>Tất Cả</option>
+                                    @foreach (var item in AllWarehouse)
+                                    {
+                                        <option value="@item.Id">@item.Name</option>
+                                    }
+                                </select>
+                            </div>
+                        }
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="title-group">
+                <span>Top 10 sản phẩm bán chạy</span>
+            </div>
+            <canvas id="chartTop10" height="250"></canvas>
+
+        </div>
+
+        <div class="col-md-6">
+            <div class="title-group">
+                <span>Doanh thu từng cửa hàng</span>
+            </div>
+            <canvas id="chartRevenue" height="250"></canvas>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        function setClipboard(data) {
+            document.addEventListener('copy', function (e) {
+                e.clipboardData.setData('text/plain', data);
+                e.preventDefault();
+            });
+        }
+        var chartTop10 = new Chart($('#chartTop10'), {
+            type: 'horizontalBar',
+            data: {
+                labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+                datasets: [{
+                    label: 'Đã bán',
+                    data: [],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(21, 69, 118, 0.2)',
+                        'rgba(1, 165, 141, 0.2)',
+                        'rgba(239, 51, 49, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(21, 69, 118, 1)',
+                        'rgba(1, 165, 141, 1)',
+                        'rgba(239, 51, 49, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                tooltips: {
+                    callbacks: {
+                        label: function (tooltipItem, data) {
+                            var label = data.datasets[tooltipItem.datasetIndex].label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            label += formatNumber(tooltipItem.xLabel);
+                            return label;
+                        }
+                    }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            callback: function (value) {
+                                return formatNumber(value);
+                            }
+                        }
+                    }]
+                },
+                animation: {
+                    duration: 1,
+                    onComplete: function () {
+                        var chartInstance = this.chart,
+                            ctx = chartInstance.ctx;
+                        ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'bottom';
+                        this.data.datasets.forEach(function (dataset, i) {
+                            var meta = chartInstance.controller.getDatasetMeta(i);
+                            meta.data.forEach(function (bar, index) {
+                                var data = dataset.data[index];
+                                ctx.fillStyle = dataset.borderColor;
+                                ctx.fillText(formatNumber(data), bar._model.x + 10, bar._model.y + 8);
+                            });
+                        });
+                    }
+                },
+                hover: {
+                    animationDuration: 0,
+                },
+                responsiveAnimationDuration: 0,
+                legend: {
+                    display: false
+                }
+            }
+        });
+
+
+        $('#chartTop10').on('click', function (evt) {
+            var activePoint = chartTop10.getElementAtEvent(evt);
+            if (activePoint.length == 1) {
+                setClipboard(activePoint[0]._model.label);
+                document.execCommand("copy");
+                notifyInfo('Đã Coppy Barcode sản phẩm');
+            }
+        });
+        _AjaxPost("/Products/GetChartTop10", { opSearch: $('input[name="rdSearch"]:checked').val() }, function (rs) {
+            if (rs.success) {
+                chartTop10.data.datasets[0].data = rs.listQuantity;
+                chartTop10.data.labels = rs.listLabel;
+                chartTop10.update();
+            }
+            else {
+                notifyError('Lấy dữ liệu biểu đồ Top 10 sản phẩm bán chạy nhất thất bại!');
+            }
+        });
+        var chartRevenue = new Chart($('#chartRevenue'), {
+            type: 'pie',
+            data: {
+                labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [12, 19, 3, 5, 2, 3],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(21, 69, 118, 0.2)',
+                        'rgba(1, 165, 141, 0.2)',
+                        'rgba(239, 51, 49, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(21, 69, 118, 1)',
+                        'rgba(1, 165, 141, 1)',
+                        'rgba(239, 51, 49, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                tooltips: {
+                    callbacks: {
+                        label: function (tooltipItem, data) {
+                            var label = data.labels[tooltipItem.index] || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            label += formatNumber(data.datasets[0].data[tooltipItem.index]);
+                            return label;
+                        }
+                    }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            display: false
+                        }
+                    }]
+                },
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        });
+        _AjaxPost("/Orders/GetNevenue", { opSearch: $('input[name="rdSearch"]:checked').val() }, function (rs) {
+            if (rs.success) {
+                chartRevenue.data.datasets[0].data = rs.listRevenue;
+                chartRevenue.data.labels = rs.listLabel;
+                chartRevenue.update();
+            }
+            else {
+                notifyError('Lấy dữ liệu biểu đồ doanh thu thất bại!');
+            }
+        });
+        $('input[name="rdSearch"]').on('change', function () {
+            getReport();
+        });
+        $('#drdWarehouse').on('change', function () {
+            getReport();
+        });
+        function getReport() {
+            _AjaxPost("/Products/GetChartTop10", { opSearch: $('input[name="rdSearch"]:checked').val(), IDWarehouse: $("#drdWarehouse").val() }, function (rs) {
+                if (rs.success) {
+                    chartTop10.data.datasets[0].data = rs.listQuantity;
+                    chartTop10.data.labels = rs.listLabel;
+                    chartTop10.update();
+                }
+                else {
+                    notifyError('Lấy dữ liệu biểu đồ Top 10 sản phẩm bán chạy nhất thất bại!');
+                }
+            });
+            _AjaxPost("/Orders/GetNevenue", { opSearch: $('input[name="rdSearch"]:checked').val(), IDWarehouse: $("#drdWarehouse").val() }, function (rs) {
+                if (rs.success) {
+                    chartRevenue.data.datasets[0].data = rs.listRevenue;
+                    chartRevenue.data.labels = rs.listLabel;
+                    chartRevenue.update();
+                }
+                else {
+                    notifyError('Lấy dữ liệu biểu đồ doanh thu thất bại!');
+                }
+            });
+        }
+    </script>
+}

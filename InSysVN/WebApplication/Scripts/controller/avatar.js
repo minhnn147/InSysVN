@@ -1,0 +1,4 @@
+﻿var Avatar = {
+    Load: function () {
+    }
+}

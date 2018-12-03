@@ -1,0 +1,152 @@
+﻿@using LIB.Model
+@model LIB.UserEntity
+@using WebApplication.Authorize
+@{
+    ViewBag.Title = Model.Id == null ? "Tạo user" : "Sửa user";
+    var acc = User as CustomPrincipal;
+}
+@*@if (Model.Id == acc.Id || acc.IsAdmin || acc.IsSupperAdmin)
+{*@
+    @section styles_plugins{
+        <link href="~/Content/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
+        <link rel="stylesheet" type="text/css" href="~/Content/css/select2.min.css" />
+    }
+    @section scripts_plugins{
+        <script src="~/Content/js/bootstrap-datepicker.min.js"></script>
+        <script src="~/Content/js/bootstrap-datepicker.vi.min.js"></script>
+        <script src="~/Content/js/app.js"></script>
+        <script src="~/Content/js/select2.full.min.js"></script>
+    }
+    @section scripts{
+        <script src="~/Scripts/controller/User_CreateOrUpdate.js"></script>
+        <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    }
+    <div class="panel panel-info">
+        <div class="panel-heading">Thông tin người dùng</div>
+        @using (Html.BeginForm("SaveUser", "Users", FormMethod.Post, new { @id = "frmUpdateUser" }))
+        {
+            <div class="panel-body">
+                @Html.TextBoxFor(m => m.Id, htmlAttributes: new { @style = "display:none" })
+                <div class="row">
+                    <div class="col-sm-4 col-xs-12">
+                        <div class="form-group" style="text-align:center">
+                            <label>Ảnh đại diện</label>
+                            <img style="max-width: 250px;margin:auto;display:block" id="ImgAvatar" class="img-thumbnail" src="@(Model.AvatarImg ?? System.Configuration.ConfigurationManager.AppSettings["AvatarDefault"])" />
+                            <div class="col-sm-12">
+                                <label class="btn btn-primary btn-upload" for="ipAvatar" title="Upload image file">
+                                    <input class="sr-only" id="ipAvatar" name="file" type="file" accept="image/*">
+                                    Thay đổi Avatar
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="row">
+                            @if (Model.Id != null)
+                            {
+                                <div class="col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.UserCode)
+                                        @Html.TextBoxFor(m => m.UserCode, new { @class = "form-control", @required = "required", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            }
+                            <div class="col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.UserName)
+                                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @required = "required" })
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.FullName)
+                                    @Html.TextBoxFor(m => m.FullName, new { @class = "form-control", @required = "required" })
+                                </div>
+                            </div>
+                            @if (Model.Id == null)
+                            {
+                                <div class="col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Password)
+                                        @Html.TextBoxFor(m => m.Password, new { @class = "form-control", @type = "password", @required = "required", @minlength = 6 })
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                @Html.TextBoxFor(m => m.Password, new { @class = "form-control", @type = "password", @required = "required", @minlength = 6, @style = "display:none" })
+                            }
+                            <div class="col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Birthday)
+                                    <input class="form-control" name="Birthday" id="Birthday" datepicker value="@(Model.Birthday==null?"":Model.Birthday.Value.ToString("dd/MM/yyyy"))" />
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Email)
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @type = "email", @required = "required" })
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Phone)
+                                    @Html.TextBoxFor(m => m.Phone, new { @class = "form-control", @type = "tel", @required = "required" })
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Gender)
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                            <label class="btn btn-sm btn-default">
+                                                @Html.RadioButtonFor(m => m.Gender, 0, new { @checked = "checked", @id = "rdNam" }) Nam
+                                            </label>
+                                            <label class="btn btn-sm btn-default">
+                                                @Html.RadioButtonFor(m => m.Gender, 1, new { @id = "rdNu" }) Nữ
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.RoleId)
+                                    @Html.DropDownListFor(m => m.RoleId, new SelectList(ViewBag.drdRole, "Id", "DisplayName"), new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Address)
+                                    @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="clearfix">
+                    <div class="pull-right">
+                        @if (acc.IsAdmin)
+                        {
+                            <a href="/Users"><i class="fas fa-angle-double-left"></i> Quay Lại Danh Sách</a>
+                        } |
+                        @if (Model.Id == null)
+                        {
+                            <button type="submit" class="btn btn-success">Tạo Mới</button>
+                        }
+                        else
+                        {
+                            <button type="submit" class="btn btn-success">Cập Nhật</button>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+@*}
+else
+{
+    Response.Redirect("/Unauthorised/Index");
+}*@

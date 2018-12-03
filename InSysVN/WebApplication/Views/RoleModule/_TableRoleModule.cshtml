@@ -1,0 +1,67 @@
+﻿@using LIB.RoleModule
+@model List<RoleModuleEntity>
+<form id="frmRoleModule">
+    <table id="tblRole_Module" class="table table-hover table-bordered">
+        <thead>
+            <tr>
+                <th></th>
+                <th>@Html.DisplayNameFor(m => m[0].View)</th>
+                <th>@Html.DisplayNameFor(m => m[0].Add)</th>
+                <th>@Html.DisplayNameFor(m => m[0].Edit)</th>
+                <th>@Html.DisplayNameFor(m => m[0].Delete)</th>
+                <th>@Html.DisplayNameFor(m => m[0].Import)</th>
+                <th>@Html.DisplayNameFor(m => m[0].Export)</th>
+                <th>@Html.DisplayNameFor(m => m[0].Upload)</th>
+                <th>@Html.DisplayNameFor(m => m[0].Publish)</th>
+                <th>@Html.DisplayNameFor(m => m[0].Report)</th>
+                <th>@Html.DisplayNameFor(m => m[0].Sync)</th>
+                <th>@Html.DisplayNameFor(m => m[0].Accept)</th>
+                <th>@Html.DisplayNameFor(m => m[0].Cancel)</th>
+                <th>@Html.DisplayNameFor(m => m[0].Record)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (var i = 0; i < Model.Count; i++)
+            {
+            <tr>
+                <th hidden>@Html.TextBoxFor(m => m[i].ModuleId)</th>
+                <th hidden>@Html.TextBoxFor(m => m[i].RoleId)</th>
+                <th style="text-align:left">@Model[i].ModuleName</th>
+                <td>@Html.CheckBoxFor(m => m[i].View)</td>
+                <td>@Html.CheckBoxFor(m => m[i].Add)</td>
+                <td>@Html.CheckBoxFor(m => m[i].Edit)</td>
+                <td>@Html.CheckBoxFor(m => m[i].Delete)</td>
+                <td>@Html.CheckBoxFor(m => m[i].Import)</td>
+                <td>@Html.CheckBoxFor(m => m[i].Export)</td>
+                <td>@Html.CheckBoxFor(m => m[i].Upload)</td>
+                <td>@Html.CheckBoxFor(m => m[i].Publish)</td>
+                <td>@Html.CheckBoxFor(m => m[i].Report)</td>
+                <td>@Html.CheckBoxFor(m => m[i].Sync)</td>
+                <td>@Html.CheckBoxFor(m => m[i].Accept)</td>
+                <td>@Html.CheckBoxFor(m => m[i].Cancel)</td>
+                <td>@Html.CheckBoxFor(m => m[i].Record)</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    <button type="submit" class="btn btn-primary" id="btnSaveRole_Module">Lưu Thay Đổi</button>
+</form>
+<script>
+    $(document).ready(function () {
+        $("#frmRoleModule").on("submit", function () {
+            app.component.Loading.Show();
+            _AjaxPostForm("/RoleModule/Save", $(this).serialize(), function (rs) {
+                app.component.Loading.Hide();
+                if (rs.success) {
+                    notifySuccess("Phân Quyền Thành Công!")
+                }
+                else {
+                    notifyError("Phân Quyền Thất Bại!")
+                    console.log(rs.error);
+                }
+            });
+            return false;
+        });
+    });
+</script>
+

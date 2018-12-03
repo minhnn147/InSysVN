@@ -1,0 +1,51 @@
+﻿@using LIB
+@using LIB.Model
+@using WebApplication.Code
+@model UserResetPassCodeModel
+@{
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+    ViewBag.Title = "Quên mật khẩu";
+}
+@using (Html.BeginForm("ResetPassWithMail", "Users", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "frmLogin" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary("", new { @class = "text-danger", @style = "text-align: left;" })
+
+    <label class="label label-control font-weight-bold">Tài khoản đăng nhập</label>
+    <fieldset class="form-group position-relative has-icon-left">
+        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control required input-lg", placeholder = "Tên đăng nhập", required = "" })
+        <div class="form-control-position">
+            <i class="ft-user"></i>
+        </div>
+        <div class="help-block font-small-3"></div>
+    </fieldset>
+
+    <label class="label label-control font-weight-bold">Địa chỉ email</label>
+    <fieldset class="form-group position-relative has-icon-left">
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control required input-lg", placeholder = "Địa chỉ email", required = "" })
+        <div class="form-control-position">
+            <i class="ft-at-sign"></i>
+        </div>
+        <div class="help-block font-small-3"></div>
+    </fieldset>
+    <div class="form-group" style="text-align:center">
+        <div class="g-recaptcha" data-sitekey="@AppSettings.CaptchaSiteKey"></div>
+        <style>
+            .g-recaptcha > div {
+                width: inherit !important;
+            }
+        </style>
+    </div>
+    <div class="clearfix"></div>
+
+    <button class="btn btn-primary btn-block" type="submit">Gửi</button>
+    <fieldset class="form-group row">
+        <div class="col-md-6 col-xs-12 text-xs-center text-md-left">
+
+        </div>
+        <div class="col-md-6 col-xs-12 text-xs-center text-md-right">
+            <a class="card-link" href="/User/login">Quay lại đăng nhập.</a>
+        </div>
+    </fieldset>
+}
+<script src="https://www.google.com/recaptcha/api.js?hl=vi" async defer></script>

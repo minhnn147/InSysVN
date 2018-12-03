@@ -1,0 +1,44 @@
+﻿@using LIB
+@using LIB.Model
+@model UserChangePassModel
+@{
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+    ViewBag.Title = "Đặt lại mật khẩu";
+}
+@using (Html.BeginForm("ResetPassCode", "Users", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "frmLogin" }))
+{
+    <input type="hidden" name="ResetCode" id="ResetCode" value="@ViewBag.ResetCode"/>
+    @Html.AntiForgeryToken()
+    <h1>@ViewBag.Title</h1>
+    <h4>Chào @ViewBag.UserName</h4>
+    @Html.ValidationSummary("", new { @class = "text-danger", @style = "text-align: left;" })
+
+    <label class="label label-control font-weight-bold required">Mật khẩu mới</label>
+    <fieldset class="form-group position-relative has-icon-left">
+        @Html.PasswordFor(m => m.New, new { @class = "form-control required input-lg", placeholder = "Mật khẩu mới", required = "" })
+        <div class="form-control-position">
+            <i class="fa fa-key"></i>
+        </div>
+        <div class="help-block font-small-3"></div>
+    </fieldset>
+
+    <label class="label label-control font-weight-bold required">Xác nhận mật khẩu mới</label>
+    <fieldset class="form-group position-relative has-icon-left">
+        @Html.PasswordFor(m => m.NewVerify, new { @class = "form-control required input-lg", placeholder = "Xác nhận mật khẩu mới", required = "" })
+        <div class="form-control-position">
+            <i class="fa fa-key"></i>
+        </div>
+        <div class="help-block font-small-3"></div>
+    </fieldset>
+
+    <button class="btn btn-primary submit btn-block" type="submit">Gửi</button>
+
+    <fieldset class="form-group row">
+        <div class="col-md-6 col-xs-12 text-xs-center text-md-left">
+
+        </div>
+        <div class="col-md-6 col-xs-12 text-xs-center text-md-right">
+            <a class="card-link" href="/User/login">Quay lại đăng nhập.</a>
+        </div>
+    </fieldset>
+}

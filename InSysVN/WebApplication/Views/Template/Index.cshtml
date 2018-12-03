@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "Danh sách Template";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles_plugins{
+    <link href="~/Content/css/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="~/Content/css/bootstrap-editable.css" rel="stylesheet" />
+    <link href="~/Content/css/select2.min.css" rel="stylesheet" />
+}
+@section scripts_plugins{
+    <script src="~/Content/js/bootstrap-table.min.js"></script>
+    <script src="~/Content/js/bootstrap-table-vi-VN.min.js"></script>
+    <script src="~/Content/js/bootstrap-editable.min.js"></script>
+    <script src="~/Content/js/bootstrap-table-editable.min.js"></script>
+    <script src="~/Content/js/select2.full.min.js"></script>
+}
+
+@section scripts{
+    <script src="~/Scripts/controller/Template.js"></script>
+}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Danh sách Template
+    </div>
+    <div class="panel-body">
+        <table id="tblTemplate"></table>
+    </div>
+</div>

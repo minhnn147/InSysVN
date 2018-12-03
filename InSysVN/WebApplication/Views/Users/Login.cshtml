@@ -1,0 +1,35 @@
+﻿@model WebApplication.Models.LoginModel
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+<div class="login">
+    <div class="frmLogin">
+        <div class="title">HỆ THỐNG BÁN LẺ ONLINE</div>
+        <div class="hr"><span>Đăng nhập hệ thống</span></div>
+        <div class="error" style="color:red">
+            @Html.ValidationSummary()
+        </div>
+        <div class="body">
+            @using (Html.BeginForm("Login", "Users", FormMethod.Post, new { id = "frmLogin" }))
+            {
+                <div class="form-group">
+                    @Html.LabelFor(m => m.UserName)
+                    <fieldset>
+                        <i class="fas fa-user"></i>
+                        @Html.TextBoxFor(m => m.UserName, new { @data_validation_required_message = "Vui lòng nhập tên đăng nhập.", @class = "form-control", @required = "required" })
+                    </fieldset>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Password)
+                    <fieldset>
+                        <i class="fas fa-key"></i>
+                        @Html.TextBoxFor(m => m.Password, new { @type = "password", @data_validation_required_message = "Vui lòng nhập tên đăng nhập.", @class = "form-control", @required = "required" })
+                    </fieldset>
+                </div>
+                <button type="submit" class="btn"><i class="fas fa-sign-in-alt"></i> Đăng Nhập</button>
+            }
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,39 @@
+﻿@using WebApplication.Authorize
+@using System.Configuration
+@{
+    ViewBag.Title = "Danh sách sản phẩm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var acc = User as CustomPrincipal;
+}
+@section styles_plugins{
+}
+@section scripts_plugins{
+    <script src="~/Content/js/bootstrap-editable.min.js"></script>
+    <script src="~/Content/js/bootstrap-table-editable.min.js"></script>
+}
+
+@section scripts{
+    <script src="~/Scripts/controller/Products.js"></script>
+}
+<div class="panel panel-default">
+    <div class="panel-heading">Danh sách sản phẩm</div>
+    <div class="panel-body">
+        <div id="toolbar">
+            <form id="filter" class="form-inline" enctype="multipart/form-data">
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            @if ((ViewBag.IsSync == false && ViewBag.IsSync != null) || acc.IsSupperAdmin)
+                            {
+                                //@Html.ActionLink("Thêm Mới", "Create", null, new { @class = "btn btn-success", @id="btnCreate" })
+                                <a class="btn btn-success" href="/Products/Create" id="btnCreate">Thêm mới</a>
+                            }
+                            <button type="button" id="btnExportExcelProduct" class="btn btn-danger">Export Excel</button>
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <table id="tableProducts"></table>
+    </div>
+</div>

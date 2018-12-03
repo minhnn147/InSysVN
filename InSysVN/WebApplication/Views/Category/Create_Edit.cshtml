@@ -1,0 +1,85 @@
+﻿@using LIB.Model
+@model LIB.CategoryEntity
+@using WebApplication.Authorize
+@{
+    ViewBag.Title = "Create_Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Thêm mới danh mục</h2>
+
+@using (Html.BeginForm("InsertCate", "Category",FormMethod.Post, new { @id = "frmCreateCate"}))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @Html.TextBoxFor(m => m.Id, htmlAttributes: new { @style = "display:none" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ImagePath, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.EditorFor(model => model.ImagePath, new { htmlAttributes = new { @class = "form-control" } })*@
+                @if (Model.ImagePath != null)
+                {
+                    <img style="max-width: 400px;margin:auto;display:block" id="ImgCate" class="img-thumbnail" src="@("http://localhost:59765/"+Model.ImagePath)" />
+                }
+                else
+                {
+                    <img style="max-width: 400px;margin:auto;display:block" id="ImgCate" class="img-thumbnail" src="@(System.Configuration.ConfigurationManager.AppSettings["CateImagesDefault"])" />
+                }
+                <input type="file" id="btnselectImage" value="Chọn ảnh" name="file" accept="image" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" id="btnCreateCate" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section scripts{
+    <script src="~/Content/js/extend/ckeditor/ckeditor.js"></script>
+    <script src="~/Content/js/extend/ckfinder/ckfinder.js"></script>
+    <script src="~/Scripts/controller/Cate_CreateOrEdit.js"></script>
+    <script>
+        CKEDITOR.replace('Description', {
+            language: 'en',
+            uiColor: '#9AB8F3'
+        });
+    </script>
+    @*<script>
+            $('#btnselectImage').click(function () {
+                CKFinder.basePath = '/Content/js/extend/ckfinder/';
+                CKFinder.selectActionFunction = SetFileField;
+                CKFinder.SelectFunction = 'ShowFileInfo';
+                CKFinder.popup();
+                function SetFileField(fileUrl) {
+                    document.getElementById('ImagePath').value = fileUrl;
+                }
+            });
+        </script>*@
+}

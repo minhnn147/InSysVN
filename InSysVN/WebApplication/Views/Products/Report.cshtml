@@ -1,0 +1,70 @@
+﻿@using LIB.Warehouses
+@using WebApplication.Authorize
+@{
+    ViewBag.Title = "Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var acc = User as CustomPrincipal;
+    var AllWarehouse = ViewBag.AllWarehouse as List<WarehousesEntity>;
+}
+@{
+    ViewBag.Title = "Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles_plugins{
+    <link href="~/Content/css/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="~/Content/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/Content/css/bootstrap-datepicker3.min.css" />
+}
+@section scripts_plugins{
+    <script src="~/Content/js/bootstrap-table.min.js"></script>
+    <script src="~/Content/js/bootstrap-table-vi-VN.min.js"></script>
+    <script src="~/Content/js/bootstrap-datepicker.min.js"></script>
+    <script src="~/Content/js/bootstrap-datepicker.vi.min.js"></script>
+    <script src="~/Content/js/select2.full.min.js"></script>
+}
+@section scripts{
+    <script src="~/Scripts/controller/ProductsReport.js"></script>
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Danh sách sản phẩm
+    </div>
+    <div class="panel-body">
+        <div id="toolbar">
+            <form class="form-inline">
+
+                @if (acc.IsSupperAdmin)
+                {
+                    <div class="input-group">
+                        <span class="input-group-addon">ShowRoom</span>
+                        <select class="form-control" id="drdWarehouse">
+                            <option>Tất Cả</option>
+                            @foreach (var item in AllWarehouse)
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        </select>
+                    </div>
+                }
+                <div style="width:100%">
+                    <div class="input-group">
+                        <div class="input-group-addon">Từ ngày</div>
+                        <input id="startdate" class="form-control" datePicker />
+                        <div class="input-group-addon">Đến ngày</div>
+                        <input id="enddate" class="form-control" datePicker />
+                    </div>
+                    <div class="input-group">
+                        <input id="txtsearch" class="form-control" placeholder="Tên sản phẩm | Barcode" />
+                        <div class="input-group-btn">
+                            <button class="btn btn-primary" id="btnSearch" type="button"><i class="fas fa-search"></i></button>
+                            <button class="btn btn-primary" id="btnExportExcel" type="button" style="margin-left:15px">Xuất Excel</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <table id="tblProductsReport"></table>
+    </div>
+</div>
+
