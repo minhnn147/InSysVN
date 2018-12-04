@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-   <!-- Begin of home section -->
+<!-- Begin of home section -->
 <div class="section section-home fullscreen-md fp-auto-height-responsive main-home section-centered"
      data-section="home">
     <!-- Begin of section wrapper -->
@@ -208,32 +208,35 @@
 <!-- End of description section -->
 <!-- Begin of slider section -->
 <div class="section section-twoside project-slider fp-auto-height-responsive " data-section="projects-featured">
-    
-    @foreach (var item in ViewBag.Category)
-    {
-        <div class="slide">
-        <div class="slide-wrapper">
-            <div class="item-wrapper">
-                <div class="illustr">
-                    <img class="img img-block" src="@item.ImagePath" alt="Image">
-                </div>
-                <div class="legend">
-                    <a href="item.html#project_url">
-                        <h3>@item.Name</h3>
-                        <p>
-                           @Html.Raw(@item.Description)
-                        </p>
-                    </a>
-                    <a class="btn btn-transp-arrow btn-primary" href="item.html#project_url">
-                        <span class="text">Details</span>
-                        <span class="icon arrow-right"></span>
-                    </a>
+    <div class="section-wrapper fullwidth with-margin" style="padding-top:64px !important">
+        <div class="title-desc">
+            <h2 class="display-4 display-title anim-1">Danh mục</h2>
+        </div>
+        @foreach (var item in ViewBag.Category)
+        {
+            <div class="slide">
+                <div class="slide-wrapper">
+                    <div class="item-wrapper">
+                        <div class="illustr">
+                            <img class="img img-block" src="@item.ImagePath" alt="Image">
+                        </div>
+                        <div class="legend">
+                            <a href="item.html#project_url">
+                                <h3>@item.Name</h3>
+                                <p>
+                                    @Html.Raw(@item.Description)
+                                </p>
+                            </a>
+                            <a class="btn btn-transp-arrow btn-primary" href="item.html#project_url">
+                                <span class="text">Xem chi tiết</span>
+                                <span class="icon arrow-right"></span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        }
     </div>
-    }
-
     <!-- Arrows scroll down/up -->
     <footer class="section-footer scrolldown">
         <a class="down">
@@ -596,7 +599,7 @@
                 <div class="col-12 col-lg-6 text-left">
                     <!-- title and description -->
                     <div class="title-desc">
-                        <h2 class="display-4 display-title anim-1">Products</h2>
+                        <h2 class="display-4 display-title anim-1">Sản phẩm</h2>
                         <p class="anim-2">
                             List of products. Lorem ipsum magicum dolor sit amet, consectetur
                             adipiscing elit. Maecenas a sem ultrices neque vehicula fermentum
@@ -754,89 +757,6 @@
     <!-- End of section wrapper -->
 </div>
 <!-- End of list products section -->
-<!-- Begin of register/login/signin section -->
-@*<div class="section section-register fp-auto-height-responsive " data-section="register">
-    <!-- section cover -->
-    <div class="section-cover-full bg-img" data-image-src="/Assets/img/sections/register.png">
-    </div>
-
-    <!-- Begin of section wrapper -->
-    <div class="section-wrapper fullwidth with-margin">
-
-        <!-- content -->
-        <div class="section-content anim">
-
-            <div class="row">
-
-                <div class="col-12 col-md-12 col-lg-5">
-                    <!-- Registration form container-->
-                    <form class="send_email_form form-container form-container-transparent form-container-white"
-                          method="post" action="ajaxserver/serverfile.php">
-                        <div class="form-desc">
-                            <h2 class="display-4 display-title  anim-2">Subscribe</h2>
-                            <p class="invite  anim-3">Don't miss any new opportunity, Hurry up! register now :</p>
-                        </div>
-                        <div class="form-input  anim-4">
-                            <div class="form-group form-success-gone">
-                                <label for="reg-email">Email</label>
-                                <input id="reg-email" name="email" class="form-control-line form-control-white" type="email"
-                                       required placeholder="your@email.address" data-validation-type="email" />
-                            </div>
-                            <div class="form-group mb-0">
-                                <div>
-                                    <p class="email-ok invisible form-text-feedback form-success-visible">Your email has been registred, thank you.</p>
-                                </div>
-
-                                <div class="btns-action anim-3">
-                                    <button id="submit-email" name="submit_email" class="btn btn-circicon btn-primary form-success-gone">
-                                        <span class="icon">
-                                            <i class="ion ion-checkmark"></i>
-                                        </span>
-                                        <span class="text">Subscribe</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <!-- end of content -->
-        <!-- aside footer -->
-        <div class="section-aside aside-bottom small-relative">
-            <div class="text-left text-md-right">
-                <p>Stay updated. Follow us on social media</p>
-            </div>
-            <div class="icons icons-margin">
-                <a class="icon-btn" href="#">
-                    <i class="icon fa fa-instagram"></i>
-                </a>
-                <a class="icon-btn" href="#">
-                    <i class="icon fa fa-youtube"></i>
-                </a>
-                <a class="icon-btn" href="#">
-                    <i class="icon fa fa-facebook"></i>
-                </a>
-                <a class="icon-btn" href="#">
-                    <i class="icon fa fa-pinterest"></i>
-                </a>
-                <a class="icon-btn" href="#">
-                    <i class="icon fa fa-twitter"></i>
-                </a>
-            </div>
-        </div>
-
-    </div>
-    <!-- End of section wrapper -->
-    <!-- Arrows scroll down/up -->
-    <footer class="section-footer scrolldown">
-        <a class="down">
-            <span class="icon"></span>
-            <span class="txt">Contact</span>
-        </a>
-    </footer>
-</div>*@
-<!-- End of register/login/signin section -->
 <!-- Begin of contact section -->
 <div class="section section-contact fp-auto-height-responsive no-slide-arrows " data-section="contact">
     <!-- section cover -->
@@ -853,7 +773,7 @@
                     <!-- title and description -->
                     <div class="title-desc">
                         <div class="anim-2">
-                            <h2 class="display-4 display-title">Contact</h2>
+                            <h2 class="display-4 display-title">Liên hệ</h2>
                             <p>
                                 For questions about our company and products found on our stores.
                                 Cras vitae neque molestie, rhoncus ipsum sit amet, lobortis dui.
@@ -901,32 +821,32 @@
         <!-- aside content -->
         <div class="section-aside aside-bottom anim small-relative">
             <div class="message-form">
-                <h4>Write message</h4>
+                <h4>Liên hệ với chúng tôi</h4>
                 <div class="form-container form-container-card">
                     <!-- Message form container -->
-                    <form class="send_message_form message form" method="post" action="ajaxserver/serverfile.php"
+                    <form class="send_message_form message form" method="post"
                           id="message_form">
                         <div class="form-group name">
-                            <input id="mes-name" name="name" type="text" placeholder="Name" class="form-control form-control-outline thick form-success-clean"
+                            <input id="mes-name" name="name" type="text" placeholder="Họ và tên" class="form-control form-control-outline thick form-success-clean"
                                    required>
                         </div>
                         <div class="form-group email">
                             <input id="mes-email" type="email" placeholder="Email" name="email" class="form-control form-control-outline thick form-success-clean"
                                    required>
                         </div>
+                        <div class="form-group email">
+                            <input id="mes-phone" type="text" placeholder="Điện thoại" name="phone" class="form-control form-control-outline thick form-success-clean"
+                                   required>
+                        </div>
                         <div class="form-group no-border">
-                            <textarea id="mes-text" placeholder="Message ..." name="message" class="form-control form-control-outline thick form-success-clean"
+                            <textarea id="mes-text" placeholder="Nội dung ..." name="message" class="form-control form-control-outline thick form-success-clean"
                                       required></textarea>
-
-                            <div>
-                                <p class="message-ok invisible form-text-feedback form-success-visible">Your message has been sent, thank you.</p>
-                            </div>
                         </div>
 
                         <div class="btns text-right">
                             <button id="submit-message" class="btn btn-outline-white btn-round btn-fullNot email_b"
                                     name="submit_message">
-                                <span class="txt">Send Now</span>
+                                <span class="txt">Gửi ngay</span>
                                 <span class="arrow-icon"></span>
                             </button>
                         </div>
@@ -939,4 +859,3 @@
 
 </div>
 <!-- End of contact section -->
-

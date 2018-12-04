@@ -1,9 +1,6 @@
 ﻿using Framework.EF;
 using LIB;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using LIB.ContactUs;
 using System.Web.Mvc;
 
 namespace InSys.Controllers
@@ -11,9 +8,11 @@ namespace InSys.Controllers
     public class HomeController : Controller
     {
         private ICategory _cateRepo;
+        private IContactUs _contact;
         public HomeController()
         {
             _cateRepo = SingletonIpl.GetInstance<IplCategory>();
+            _contact = SingletonIpl.GetInstance<iplContactUs>();
         }
         public ActionResult Index()
         {
@@ -26,6 +25,24 @@ namespace InSys.Controllers
             ViewBag.Message = "Your application description page.";
 
             return View();
+        }
+
+        public JsonResult ContactUs(string fullname, string email, string phone, string content)
+        {
+            ContactUsEntity entity = new ContactUsEntity
+            {
+                FullName = fullname,
+                Email = email,
+                Phone = phone,
+                Content = content
+            };
+            long res = _contact.InsertContact(entity);
+            if (res > 0)
+            {
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(false, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Contact()
