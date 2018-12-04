@@ -4,3 +4,4 @@
     [Name]      NVARCHAR (50) NOT NULL,
     CONSTRAINT [PK_Stall] PRIMARY KEY CLUSTERED ([Id] ASC, [IpAddress] ASC, [Name] ASC)
 );
+

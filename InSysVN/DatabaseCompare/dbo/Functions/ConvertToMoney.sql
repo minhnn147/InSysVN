@@ -1,8 +1,10 @@
 ﻿
 CREATE FUNCTION [dbo].[ConvertToMoney]
 (
+	@Input			money=0
 )
 RETURNS nvarchar(200)
+AS
 BEGIN
 declare @Output				nvarchar(200)
 SELECT
