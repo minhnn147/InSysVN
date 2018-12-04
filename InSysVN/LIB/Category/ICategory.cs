@@ -7,16 +7,6 @@ namespace LIB
         //InSys
         CategoryEntity Insert_Update(CategoryEntity category);
         bool UpdateCateImage(string base64Image, int CateId, string PathServer, string PathFile);
-
-
-
-
-
-
-
-
-
-
         List<CategoryEntity> GetDataWithPage(Select2Param obj, ref int total);
         List<CategoryEntity> GetAllWithLevel(string txtSearch);
         List<CategoryEntity> GetAllData();
@@ -39,5 +29,6 @@ namespace LIB
         List<CategoryEntity> SearchCategory(string keyword);
         bool CheckExistCate(string check);
         //List<ConfigCateHomePageViewModel> ListProductConfigNew(int cateid, int pageIndex, int pageSize, ref int totalRow);
+        bool UpdateIsActive(int cateId);
     }
 }
