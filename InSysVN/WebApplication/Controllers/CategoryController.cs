@@ -5,19 +5,15 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using WebApplication.Authorize;
-using OfficeOpenXml;
-using static LIB.ExcelExtension;
 namespace WebApplication.Controllers
 {
     public class CategoryController : BaseController
     {
 
         private ICategory _categoryService;
-        private IProduct _productService;
-        private IUser _userService;
+        private readonly IProduct _productService;
+        private readonly IUser _userService;
 
         public CategoryController()
         {
@@ -28,14 +24,14 @@ namespace WebApplication.Controllers
         public ActionResult Index()
         {
             List<CategoryEntity> list = _categoryService.GetAllWithLevel("");
-            var data = getChildList(list, null, "");
+            List<CategoryEntity> data = getChildList(list, null, "");
             ViewBag.listCategory = data;
             return View();
         }
         public JsonResult GetCateData(string txtSearch)
         {
             List<CategoryEntity> lstcate = _categoryService.GetAllWithLevel(txtSearch);
-            var totalcount = lstcate.Count();
+            int totalcount = lstcate.Count();
             return Json(new { status = true, total = totalcount, rows = lstcate }, JsonRequestBehavior.AllowGet);
         }
         public ActionResult Create()
@@ -54,7 +50,7 @@ namespace WebApplication.Controllers
         {
             try
             {
-                var categet = _categoryService.CheckExistCate(category.Name);
+                bool categet = _categoryService.CheckExistCate(category.Name);
                 if (categet && category.Id == null)
                 {
                     return Json(new { success = false, warning = true, status = "Danh mục đã tồn tại" }, JsonRequestBehavior.AllowGet);
@@ -63,14 +59,14 @@ namespace WebApplication.Controllers
                 {
                     category.ImagePath = fileName;
                     CategoryEntity res = _categoryService.Insert_Update(category);
-                    if (res!= null)
+                    if (res != null)
                     {
                         if (fileName != null)
                         {
                             //string PathServer = ControllerContext.HttpContext.Server.MapPath("~");
                             string PathServer = ConfigurationManager.AppSettings["PathUploadServer"];
                             string PathFile = ConfigurationManager.AppSettings["PathUploadCateImage"] + fileName;
-                            _categoryService.UpdateCateImage(base64Avatar,res.Id.Value, PathServer, PathFile);
+                            _categoryService.UpdateCateImage(base64Avatar, res.Id.Value, PathServer, PathFile);
                         }
                         return Json(new { success = true, type = (category.Id == null ? 0 : 1) }, JsonRequestBehavior.AllowGet);
                     }
@@ -85,10 +81,11 @@ namespace WebApplication.Controllers
                 return Json(new { success = false, message = ex }, JsonRequestBehavior.AllowGet);
             }
         }
-
-
-
-
+        public JsonResult UpdateIsActive(int cateId)
+        {
+            bool flag = _categoryService.UpdateIsActive(cateId);
+            return Json(flag, JsonRequestBehavior.AllowGet);
+        }
         //------bỏ
 
         public List<CategoryEntity> getChildList(List<CategoryEntity> data, int? IdParent, string space)
@@ -127,7 +124,7 @@ namespace WebApplication.Controllers
         public JsonResult GetDataWithPage(Select2Param obj)
         {
             int total = 0;
-            var data = _categoryService.GetDataWithPage(obj, ref total);
+            List<CategoryEntity> data = _categoryService.GetDataWithPage(obj, ref total);
             return Json(new { success = true, results = data, total = total }, JsonRequestBehavior.AllowGet);
 
         }
