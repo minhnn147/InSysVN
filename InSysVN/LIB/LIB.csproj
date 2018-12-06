@@ -97,6 +97,9 @@
     <Compile Include="Category\CategoryEntity.cs" />
     <Compile Include="Category\ICategory.cs" />
     <Compile Include="Category\IplCategory.cs" />
+    <Compile Include="ContactUs\ContactUsEntity.cs" />
+    <Compile Include="ContactUs\IContactUs.cs" />
+    <Compile Include="ContactUs\iplContactUs.cs" />
     <Compile Include="DataRequests\AutocompletedRequest.cs" />
     <Compile Include="Enum\EnumSystem.cs" />
     <Compile Include="DataRequests\DataRequests.cs" />

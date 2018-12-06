@@ -424,9 +424,21 @@ namespace LIB
                 throw;
             }
         }
-        /// <summary>
-        /// Saves a record to the Category table.
-        /// </summary>
+        public bool UpdateIsActive(int cateId)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@CateId", cateId);
+                var flag = unitOfWork.ProcedureExecute("sp_Category_UpdateIsActive", p);
+                return flag;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return false;
+            }
+        }
         #endregion
     }
 }
