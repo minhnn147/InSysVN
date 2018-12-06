@@ -48,7 +48,7 @@ namespace WebApplication.Helpers
                 {
                     Id = 3,
                     Text = "Quản lý danh mục",
-                    URL = "/Category/Index",
+                    URL = "/Admin/Category",
                     ParentId = null,
                     ClassIcon = "fas fa-suitcase",
                     Category = 1
@@ -116,7 +116,7 @@ namespace WebApplication.Helpers
                 {
                     Id = 12,
                     Text = "Q.lý người dùng",
-                    URL = "/Users",
+                    URL = "/Admin/Users",
                     ParentId = null,
                     ClassIcon = "fas fa-users-cog",
                     Category = 3
