@@ -59,8 +59,8 @@ namespace WebApplication.Helpers
                 listMenu.Add(new MenuModel()
                 {
                     Id = 4,
-                    Text = "Sản phẩm",
-                    URL = "/Products/Index",
+                    Text = "Quản lý sản phẩm",
+                    URL = "/Admin/Products",
                     ParentId = null,
                     ClassIcon = "fas fa-th",
                     Category = 1
@@ -71,8 +71,8 @@ namespace WebApplication.Helpers
                 listMenu.Add(new MenuModel()
                 {
                     Id = 4,
-                    Text = "Sản phẩm",
-                    URL = "/Products/Index",
+                    Text = "Quản lý tin tức",
+                    URL = "/Admin/News",
                     ParentId = null,
                     ClassIcon = "fas fa-th",
                     Category = 1

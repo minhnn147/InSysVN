@@ -1,0 +1,72 @@
+﻿@using LIB.Model
+@model LIB.NewsEntity
+@using WebApplication.Authorize
+@{
+    ViewBag.Title = "Create_Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="panel panel-info">
+    <div class="panel-heading">
+        QUẢN LÝ TIN TỨC
+    </div>
+    <div class="panel-body">
+        @using (Html.BeginForm("InsertNews", "News", FormMethod.Post, new { @id = "frmCreateNews" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                @Html.TextBoxFor(m => m.ID, htmlAttributes: new { @style = "display:none" })
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ImageTitle, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <input type="file" id="btnselectImage" value="Chọn ảnh" name="file" accept="image" placeholder="Vui lòng chọn ảnh..." />
+                        @*@Html.EditorFor(model => model.ImagePath, new { htmlAttributes = new { @class = "form-control" } })*@
+                        @if (Model.ImageTitle != null)
+                        {
+                            <img style="max-height: 200px;margin:auto;display:block" id="ImgNews" class="img-thumbnail" src="@(Model.ImageTitle)" />
+                        }
+                        else
+                        {
+                            <img style="max-height: 200px;margin:auto;display:block" id="ImgNews" class="img-thumbnail" src="@(System.Configuration.ConfigurationManager.AppSettings["CateImagesDefault"])" />
+                        }
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.Content, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10" style="padding-top:20px">
+                        <button class="btn btn-warning" onclick="window.location.href='/Admin/Category'"><i class="glyphicon glyphicon-circle-arrow-left"></i> Quay lại</button>
+                        <button class="btn btn-primary"><i class="glyphicon glyphicon-save-file"></i> Lưu lại</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+@section scripts{
+    <script src="~/Scripts/ckeditor/ckeditor.js"></script>
+    <script src="~/CKFinderScripts/ckfinder.js"></script>
+    <script src="~/Areas/Admin/Scripts/Controller/News_CreateOrEdit.js"></script>
+    <script>
+        CKEDITOR.replace('Content', {
+            language: 'en',
+            uiColor: '#9AB8F3'
+        });
+    </script>
+}

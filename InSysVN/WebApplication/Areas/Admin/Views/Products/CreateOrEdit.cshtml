@@ -1,0 +1,148 @@
+﻿@model LIB.Product.ProductEntity
+@using WebApplication.Authorize
+@{
+    var acc = User as CustomPrincipal;
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = Model.Id == null ? "TẠO SẢN PHẨM" : "CẬP NHẬT SẢN PHẨM";
+}
+@section styles_plugins{
+    <link href="~/Content/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/Content/css/select2.min.css" />
+}
+@section scripts_plugins{
+    <script src="~/Content/js/bootstrap-datepicker.min.js"></script>
+    <script src="~/Content/js/bootstrap-datepicker.vi.min.js"></script>
+    <script src="~/Content/js/app.js"></script>
+    <script src="~/Content/js/select2.full.min.js"></script>
+}
+<div class="panel panel-info">
+    <div class="panel-heading">Thông tin sản phẩm</div>
+    @using (Html.BeginForm("InsertProduct", "Product", FormMethod.Post, new { @id = "frmUpdateProduct" }))
+    {
+        <div class="panel-body">
+            @Html.TextBoxFor(m => m.Id, htmlAttributes: new { @style = "display:none" })
+            <div class="row">
+                <div class="col-sm-8 col-xs-12">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                @Html.LabelFor(t => t.ProductCategory)
+                                <select id="SelectCate" class="form-control" required>
+                                    @foreach (var item in (IEnumerable<SelectListItem>)ViewBag.ListCategory)
+                                    {
+                                        if (item.Selected)
+                                        {
+                                            <option selected value="@item.Value">@item.Text</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.ProductName)
+                                @Html.TextBoxFor(m => m.ProductName, new { @class = "form-control", @required = "required" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.ComputeUnit)
+                                @Html.TextBoxFor(m => m.ComputeUnit, new { @class = "form-control", @required = "required" })
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Price)
+                                @Html.TextBoxFor(m => m.Price, new { @class = "form-control", @required = "required", @ipMoney = "" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-xs-12">
+                    @Html.LabelFor(m => m.Image)
+                    <div class="col-sd-10">
+                        @*@Html.EditorFor(model => model.ImagePath, new { htmlAttributes = new { @class = "form-control" } })*@
+                        @if (Model.Image != null)
+                        {
+                            <img style="max-height: 200px;margin:auto;display:block" id="ImgProducts" class="img-thumbnail" src="@(Model.Image)" />
+                        }
+                        else
+                        {
+                            <img style="max-height: 200px;margin:auto;display:block" id="ImgProducts" class="img-thumbnail" src="@(System.Configuration.ConfigurationManager.AppSettings["CateImagesDefault"])" />
+                        }
+                        <input type="file" id="btnselectImage" value="Chọn ảnh" name="file" accept="image" style="margin-top:5px" placeholder="Vui lòng chọn ảnh..." />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Description)
+                        @Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Specifications)
+                        @Html.TextAreaFor(m => m.Specifications, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="clearfix">
+                <div class="pull-right">
+                    <a href="/Products"><i class="fas fa-angle-double-left"></i> Quay lại danh sách</a> |
+                    @if (Model.Id == null)
+                    {
+                        <button type="submit" class="btn btn-success">Tạo Mới</button>
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn-success">Cập Nhật</button>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
+@section scripts{
+    <script src="~/Areas/Admin/Scripts/Controller/Products_CreateOrEdit.js"></script>
+    <script src="~/Scripts/ckeditor/ckeditor.js"></script>
+    <script src="~/CKFinderScripts/ckfinder.js"></script>
+    <script>
+        CKEDITOR.replace('Description', {
+            language: 'en',
+            uiColor: '#9AB8F3'
+        });
+        CKEDITOR.replace('Specifications', {
+            language: 'en',
+            uiColor: '#9AB8F3'
+        });
+    </script>
+    @*<script>
+            $('#btnselectImage').click(function () {
+                CKFinder.basePath = '/Content/js/extend/ckfinder/';
+                CKFinder.selectActionFunction = SetFileField;
+                CKFinder.SelectFunction = 'ShowFileInfo';
+                CKFinder.popup();
+                function SetFileField(fileUrl) {
+                    document.getElementById('ImagePath').value = fileUrl;
+                }
+            });
+        </script>*@
+}
+
+

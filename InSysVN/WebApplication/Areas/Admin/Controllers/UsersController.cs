@@ -16,14 +16,12 @@ namespace WebApplication.Areas.Admin.Controllers
         // GET: Admin/Users
         private readonly IUser _userService;
         private readonly IRole _roleService;
-        private readonly ITemplate _templateService;
         private readonly IplRoleModule _roleModule;
 
         public UsersController()
         {
             _userService = SingletonIpl.GetInstance<IplUser>();
             _roleService = SingletonIpl.GetInstance<IplRole>();
-            _templateService = SingletonIpl.GetInstance<IplTemplate>();
             _roleModule = SingletonIpl.GetInstance<IplRoleModule>();
         }
         [UserAuthorize(Modules = new ActionModule[] { ActionModule.User },

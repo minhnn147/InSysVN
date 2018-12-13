@@ -289,6 +289,8 @@
     <Compile Include="Areas\Admin\Controllers\ErrorController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
+    <Compile Include="Areas\Admin\Controllers\NewsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ProductsController.cs" />
     <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
     <Compile Include="Areas\Admin\Models\LoginModel.cs" />
     <Compile Include="Code\AppSettings.cs" />
@@ -304,7 +306,6 @@
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\RoleModuleController.cs" />
     <Compile Include="Controllers\StallController.cs" />
-    <Compile Include="Controllers\TemplateController.cs" />
     <Compile Include="Controllers\UnauthorisedController.cs" />
     <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
@@ -330,6 +331,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Admin\Scripts\Controller\Acount_Profile.js" />
+    <Content Include="Areas\Admin\Scripts\Controller\News.js" />
+    <Content Include="Areas\Admin\Scripts\Controller\News_CreateOrEdit.js" />
+    <Content Include="Areas\Admin\Scripts\Controller\Products.js" />
+    <Content Include="Areas\Admin\Scripts\Controller\Products_CreateOrEdit.js" />
     <Content Include="Areas\Admin\Scripts\Controller\Users.js" />
     <Content Include="Assets\common\extendDate.js" />
     <Content Include="Assets\common\extendJquery.js" />
@@ -2611,6 +2616,9 @@
     <Content Include="Assets\frontend\fonts\ionicons.ttf" />
     <Content Include="Assets\frontend\fonts\opensans\OpenSans-Bold-webfont.woff" />
     <Content Include="Assets\frontend\fonts\opensans\opensans-regular-webfont.woff" />
+    <Content Include="Areas\Admin\Views\Products\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\News\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\News\CreateOrEdit.cshtml" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -2646,17 +2654,11 @@
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\SendCode.cshtml" />
     <Content Include="Views\Account\VerifyCode.cshtml" />
-    <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Products\Index.cshtml" />
     <Content Include="Views\Products\Report.cshtml" />
     <Content Include="tsconfig.json" />
     <Content Include="Views\RoleModule\Index.cshtml" />
     <Content Include="Views\RoleModule\_TableRoleModule.cshtml" />
-    <Content Include="Templates\Export\ProductsReport.xlsx" />
-    <Content Include="Templates\Export\OrdersReport.xlsx" />
-    <Content Include="Templates\Export\DetailGeneralReport.xlsx" />
-    <Content Include="Templates\Export\CustomersExport.xlsx" />
-    <Content Include="Templates\Export\ProductsExport.xlsx" />
     <Content Include="Views\Products\_ImportProducts.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Account\Profile.cshtml" />
@@ -2669,13 +2671,7 @@
     <Content Include="Views\Users\_ResetPassword.cshtml" />
     <Content Include="Views\Users\UploadAvatar.cshtml" />
     <Content Include="Views\Users\Login.cshtml" />
-    <Content Include="Views\Template\Index.cshtml" />
-    <Content Include="Templates\Import\TemplateImportCustomer.xlsx" />
-    <Content Include="Templates\Import\TemplateImportProducts.xlsx" />
-    <Content Include="Views\Products\CreateOrEdit.cshtml" />
-    <Content Include="Templates\Import\TemplateImportCategory.xlsx" />
-    <Content Include="Templates\Export\CardNumbersExport.xlsx" />
-    <Content Include="Templates\Import\TemplateImportCardNumber.xlsx" />
+    <Content Include="Areas\Admin\Views\Products\CreateOrEdit.cshtml" />
     <Content Include="Scripts\ckeditor\ckeditor.pack" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -2686,6 +2682,9 @@
     <Folder Include="Areas\Admin\Views\Base\" />
     <Folder Include="Download\Export\" />
     <Folder Include="Download\Report\" />
+    <Folder Include="Uploads\CateImg\" />
+    <Folder Include="Uploads\NewImg\" />
+    <Folder Include="Uploads\ProductImg\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

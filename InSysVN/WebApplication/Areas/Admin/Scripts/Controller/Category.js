@@ -29,7 +29,7 @@
                     valign: 'center',
                     formatter: function (value, row, index) {
                         if (value != null)
-                            return "<img src='http://localhost:59765/" + value + "'style='max-width:50px'/>";
+                            return "<img src='" + value + "'style='max-width:50px'/>";
                         return '';
                     }
                 },

@@ -65,11 +65,11 @@ namespace WebApplication.Controllers
         }
         [UserAuthorize(Modules = new ActionModule[] { ActionModule.Product }, ActionType = new ActionType[] { ActionType.View })]
         [HttpPost]
-        public JsonResult InsertProduct(ProductEntity data, int[] selectCate)
+        public JsonResult InsertProduct(ProductEntity data, string base64Avatar, string fileName)
         {
                 if (data.Id <= 0 || data.Id == null) // insert sản phẩm mới
                 {
-                    if (_productService.CheckByBarcode(data.Barcode))
+                    if (_productService.CheckName(data.ProductName))
                     {
                         return Json(new { success = false, message = "Sản phẩm đã tồn tại!" }, JsonRequestBehavior.AllowGet);
                     }
@@ -87,17 +87,16 @@ namespace WebApplication.Controllers
                                 _productcateSevice.Delete(item);
                             }
                         }
-                        for (int i = 0; i < selectCate.Length; i++)
-                        {
-                            var model = new ProductCateEntity
-                            {
-                                ProductId = int.Parse(ProductId.ToString()),
-                                CateId = selectCate[i]
+                        //for (int i = 0; i < selectCate.Length; i++)
+                        //{
+                        //    var model = new ProductCateEntity
+                        //    {
+                        //        ProductId = int.Parse(ProductId.ToString()),
+                        //        CateId = selectCate[i]
+                        //    };
+                        //    var productcate = _productcateSevice.Insert(model, ref message2);
 
-                            };
-                            var productcate = _productcateSevice.Insert(model, ref message2);
-
-                        }
+                        //}
                         if (ProductId == null)
                         {
                             return Json(new { success = false, message }, JsonRequestBehavior.AllowGet);
@@ -111,7 +110,7 @@ namespace WebApplication.Controllers
                 }
                 else // Update product
                 {
-                    if (_productService.CheckByBarcode(data.Barcode))
+                    if (_productService.CheckName(data.ProductName))
                     {
                         string message = "";
                         string message2 = "";
@@ -125,17 +124,17 @@ namespace WebApplication.Controllers
                                 _productcateSevice.Delete(item);
                             }
                         }
-                        for (int i = 0; i < selectCate.Length; i++)
-                        {
-                            var model = new ProductCateEntity
-                            {
-                                ProductId = int.Parse(ProductId.ToString()),
-                                CateId = selectCate[i]
+                        //for (int i = 0; i < selectCate.Length; i++)
+                        //{
+                        //    var model = new ProductCateEntity
+                        //    {
+                        //        ProductId = int.Parse(ProductId.ToString()),
+                        //        CateId = selectCate[i]
 
-                            };
-                            var productcate = _productcateSevice.Insert(model, ref message2);
+                        //    };
+                        //    var productcate = _productcateSevice.Insert(model, ref message2);
 
-                        }
+                        //}
                         if (ProductId == null)
                         {
                             return Json(new { success = false, message }, JsonRequestBehavior.AllowGet);
@@ -150,9 +149,6 @@ namespace WebApplication.Controllers
                         return Json(new { success = false, message = "Sản phẩm này chưa tồn tại!" }, JsonRequestBehavior.AllowGet);
                     }
                 }
-
-
-            
         }
         [UserAuthorize(Modules = new ActionModule[] { ActionModule.Product }, ActionType = new ActionType[] { ActionType.View })]
         [HttpPost]
@@ -192,73 +188,7 @@ namespace WebApplication.Controllers
                 return Json(new { success = false, error = ex }, JsonRequestBehavior.AllowGet);
             }
         }
-
-        [UserAuthorize(Modules = new ActionModule[] { ActionModule.Product }, ActionType = new ActionType[] { ActionType.Report })]
-        public ActionResult Report()
-        {
-            return View("Report");
-        }
-        public ActionResult GetDataProductReport(bootstrapTableParam obj, DateTime? startDate, DateTime? endDate, int? WarehouseId)
-        {
-            try
-            {
-                int totalRecord = 0;
-                var datas = _productService.GetProductReport(obj, startDate, endDate, User.WarehouseId ?? WarehouseId, ref totalRecord);
-                return Json(new { success = true, data = datas, total = totalRecord }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                return Json(new { success = false, message = ex.ToString() }, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        [HttpPost]
-        public JsonResult ExportReport(string txtSearch, DateTime? startDate, DateTime? endDate, int? WarehouseId)
-        {
-            try
-            {
-                MemoryStream st = new MemoryStream();
-                string UrlTemplate = ControllerContext.HttpContext.Server.MapPath(ConfigurationManager.AppSettings["Template_Export_ProductsReport"]);
-                using (ExcelTemplateHelper helper = new ExcelTemplateHelper(UrlTemplate, st))
-                {
-                    helper.Direction = ExcelTemplateHelper.DirectionType.TOP_TO_DOWN;
-                    helper.CurrentSheetName = "Sheet2";
-                    helper.TempSheetName = "Sheet1";
-                    helper.CurrentPosition = new CellPosition("A1");
-
-                    int totalRecord = 0;
-                    bootstrapTableParam obj = new bootstrapTableParam();
-                    obj.limit = 0;
-                    obj.search = txtSearch;
-                    var datas = _productService.GetProductReport(obj, startDate, endDate, WarehouseId ?? User.WarehouseId, ref totalRecord);
-
-                    var temp_head = helper.CreateTemplate("head");
-                    var temp_body = helper.CreateTemplate("body");
-
-                    helper.Insert(temp_head);
-                    helper.InsertDatas(temp_body, datas);
-                    helper.CopyWidth();
-                }
-
-                string fileName = "ProductsReport";
-                if (startDate != null) fileName += "_" + startDate.Value.ToString("dd-MM-yyyy");
-                if (endDate != null) fileName += "_" + endDate.Value.ToString("dd-MM-yyyy");
-                string pathFile = ConfigurationManager.AppSettings["PathSaveFileExport"] + fileName + ".xlsx";
-                FileStream fileStream = new FileStream(Server.MapPath(pathFile), FileMode.Create, FileAccess.Write);
-                st.WriteTo(fileStream);
-                fileStream.Close();
-                return Json(new { success = true, urlFile = pathFile, fileName }, JsonRequestBehavior.AllowGet);
-
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return Json(new { success = false, message = ex.Message }, JsonRequestBehavior.AllowGet);
-            }
-
-
-        }
-
+        
         [HttpPost]
         [UserAuthorize(Modules = new ActionModule[] { ActionModule.Product }, ActionType = new ActionType[] { ActionType.Record })]
         public JsonResult UpdateProduct(ProductEntity product, int? WarehouseId)
@@ -270,127 +200,6 @@ namespace WebApplication.Controllers
             catch (Exception ex)
             {
                 return Json(new { success = false, error = ex }, JsonRequestBehavior.AllowGet);
-            }
-        }
-        [UserAuthorize(Modules = new ActionModule[] { ActionModule.Product }, ActionType = new ActionType[] { ActionType.Export })]
-        public JsonResult Export(string txtSearch, int? WarehouseId)
-        {
-            MemoryStream st = new MemoryStream();
-            string UrlTemplate = ControllerContext.HttpContext.Server.MapPath(@"~/Templates/Export/ProductsExport.xlsx");
-            using (ExcelTemplateHelper helper = new ExcelTemplateHelper(UrlTemplate, st))
-            {
-                helper.Direction = ExcelTemplateHelper.DirectionType.TOP_TO_DOWN;
-                helper.CurrentSheetName = "Sheet2";
-                helper.TempSheetName = "Sheet1";
-                helper.CurrentPosition = new CellPosition("A1");
-
-                int totalRecord = 0;
-                bootstrapTableParam obj = new bootstrapTableParam();
-                obj.limit = 0;
-                obj.search = txtSearch;
-                List<ProductEntity> datas = _productService.GetDataProduct(obj, ref totalRecord);
-
-                var temp_head = helper.CreateTemplate("head");
-                var temp_body = helper.CreateTemplate("body");
-
-                helper.Insert(temp_head);
-                helper.InsertDatas(temp_body, datas);
-                helper.CopyWidth();
-            }
-
-            string fileName = "Products_";
-            fileName += DateTime.Now.ToString("dd-MM-yyyy");
-
-            FileStream fileStream = new FileStream(Server.MapPath(@"~/Download/Export/" + fileName + ".xlsx"), FileMode.Create, FileAccess.Write);
-            st.WriteTo(fileStream);
-            fileStream.Close();
-
-            return Json(new { urlFile = "/Download/Export/" + fileName + ".xlsx", fileName }, JsonRequestBehavior.AllowGet);
-        }
-
-        //[UserAuthorize(Modules = new ActionModule[] { ActionModule.Product }, ActionType = new ActionType[] { ActionType.Import })]
-        //public JsonResult UpdateImportProducts(List<ProductEntity> data, int? WarehouseId, List<string> listError)
-        //{
-        //    if (data.Count > 0)
-        //    {
-        //        data.ForEach(p =>
-        //        {
-        //            var productCheck = _productService.GetByBarcode(p.Barcode, WarehouseId ?? User.WarehouseId.Value);
-        //            if (productCheck == null)
-        //            {
-        //                List<int?> CateId = new List<int?>();
-        //                string status = "";
-        //                string[] CateCode = System.Text.RegularExpressions.Regex.Split(p.ProductCategory, ",");
-        //                foreach (var _catecode in CateCode)
-        //                {
-        //                    var cate = _categoryService.GetByCode(_catecode.Trim());
-        //                    if (cate != null)
-        //                    { CateId.Add(cate.Id); }
-        //                }
-        //                //p.ProductCategory = null;
-        //                string message2 = "";
-        //                ProductEntity product = _productService.InsertOrUpdate(p, ref status);
-        //                foreach (var _CateId in CateId)
-        //                {
-        //                    var model = new ProductCateEntity
-        //                    {
-        //                        ProductId = int.Parse(product.Id.ToString()),
-        //                        CateId = _CateId.Value
-
-        //                    };
-        //                    var productcate = _productcateSevice.Insert(model, ref message2);
-
-        //                }
-        //                if (product == null) p.ImportStatus = status;
-        //                else p.ImportStatus = "1";
-        //            }
-        //            else
-        //            {
-        //                string status = "";
-        //                List<int?> CateId = new List<int?>();
-        //                string[] CateCode = System.Text.RegularExpressions.Regex.Split(p.ProductCategory, ",");
-        //                foreach (var _catecode in CateCode)
-        //                {
-        //                    var cate = _categoryService.GetByCode(_catecode.Trim());
-        //                    if (cate != null)
-        //                    { CateId.Add(cate.Id); }
-        //                }
-        //                //p.ProductCategory = null;
-        //                productCheck.InventoryNumber = productCheck.InventoryNumber + p.InventoryNumber;
-        //                ProductEntity product = _productService.InsertOrUpdate(productCheck, ref status);
-        //                string message2 = "";
-        //                foreach (var _CateId in CateId)
-        //                {
-        //                    var model = new ProductCateEntity
-        //                    {
-        //                        ProductId = int.Parse(product.Id.ToString()),
-        //                        CateId = _CateId.Value
-
-        //                    };
-        //                    var productcate = _productcateSevice.Insert(model, ref message2);
-
-        //                }
-        //                if (status == "")
-        //                {
-        //                    p.ImportStatus = "2";
-        //                }
-        //            }
-        //        });
-        //    }
-        //    return Json(new { success = true, list = data, listError  }, JsonRequestBehavior.AllowGet);
-        //}
-        public JsonResult GetChartTop10(int opSearch, int? IDWarehouse)
-        {
-            List<ProductsChartTop10Model> list = _productService.GetProducts_ChartTop10(opSearch, IDWarehouse ?? User.WarehouseId ?? 0);
-            if (list != null)
-            {
-                List<string> listLabel = list.Select(t => t.Barcode).ToList();
-                List<int> listQuantity = list.Select(t => t.Quantity).ToList();
-                return Json(new { success = true, listLabel, listQuantity }, JsonRequestBehavior.AllowGet);
-            }
-            else
-            {
-                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
             }
         }
     }

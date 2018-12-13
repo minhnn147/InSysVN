@@ -40,7 +40,7 @@
                         @*@Html.EditorFor(model => model.ImagePath, new { htmlAttributes = new { @class = "form-control" } })*@
                         @if (Model.ImagePath != null)
                         {
-                            <img style="max-height: 200px;margin:auto;display:block" id="ImgCate" class="img-thumbnail" src="@("http://localhost:59765/"+Model.ImagePath)" />
+                            <img style="max-height: 200px;margin:auto;display:block" id="ImgCate" class="img-thumbnail" src="@(Model.ImagePath)" />
                         }
                         else
                         {

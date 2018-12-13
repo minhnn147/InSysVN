@@ -9,6 +9,21 @@ namespace LIB
 {
     public class IplCategory : BaseService<CategoryEntity, long>, ICategory
     {
+        public List<CategoryEntity> GetAllData()
+        {
+            try
+            {
+                DynamicParameters param = new DynamicParameters();
+                List<CategoryEntity> list = unitOfWork.Procedure<CategoryEntity>("sp_Category_GetAllData", param).ToList();
+                return list;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return null;
+            }
+        }
+        //----------------------
         #region Methods
         public List<CategoryEntity> GetAllWithLevel(string txtSearch)
         {
@@ -25,20 +40,7 @@ namespace LIB
                 return null;
             }
         }
-        public List<CategoryEntity> GetAllData()
-        {
-            try
-            {
-                DynamicParameters param = new DynamicParameters();
-                List<CategoryEntity> list = unitOfWork.Procedure<CategoryEntity>("sp_Category_GetAllData", param).ToList();
-                return list;
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return null;
-            }
-        }
+        
         public List<CategoryEntity> GetDataWithPage(Select2Param obj, ref int total)
         {
             try
@@ -133,15 +135,6 @@ namespace LIB
                 throw ex;
             }
         }
-        /// <summary>
-        /// Saves a record to the Category table.
-        /// </summary>
-
-        /// <summary>
-        /// Updates a record in the Category table.
-        /// </summary>
-
-
         public bool UpdateCateImage(string base64Image, int CateId, string PathServer, string PathFile)
         {
             try
@@ -175,7 +168,6 @@ namespace LIB
                 throw;
             }
         }
-
         public bool SetOnHomePage(int id, int value)
         {
             bool res = false;
@@ -193,9 +185,6 @@ namespace LIB
                 throw;
             }
         }
-        /// <summary>
-        /// Deletes a record from the Category table by its primary key.
-        /// </summary>
         public bool Delete(int id)
         {
             try
@@ -212,10 +201,6 @@ namespace LIB
                 throw;
             }
         }
-
-        /// <summary>
-        /// Selects a single record from the Category table.
-        /// </summary>
         public CategoryEntity ViewDetail(int id)
         {
             try
@@ -249,9 +234,6 @@ namespace LIB
             }
 
         }
-        /// <summary>
-        /// Selects all records from the Category table.
-        /// </summary>
         public List<CategoryEntity> ListAll()
         {
             try
@@ -278,8 +260,6 @@ namespace LIB
                 throw;
             }
         }
-
-
         public List<CategoryEntity> ListConfig()
         {
             try
@@ -293,12 +273,6 @@ namespace LIB
                 throw;
             }
         }
-
-
-
-        /// <summary>
-        /// Selects all records from the Category table.
-        /// </summary>
         public List<CategoryEntity> ListAllPaging(int pageIndex, int pageSize, ref int totalRow)
         {
             try
@@ -401,7 +375,6 @@ namespace LIB
                 throw;
             }
         }
-
         public bool CheckExistCate(string check)
         {
             try

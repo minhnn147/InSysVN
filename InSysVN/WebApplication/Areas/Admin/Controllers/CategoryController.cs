@@ -63,8 +63,8 @@ namespace WebApplication.Areas.Admin.Controllers
                     {
                         if (fileName != null)
                         {
-                            //string PathServer = ControllerContext.HttpContext.Server.MapPath("~");
-                            string PathServer = ConfigurationManager.AppSettings["PathUploadServer"];
+                            string PathServer = ControllerContext.HttpContext.Server.MapPath("~");
+                            //string PathServer = ConfigurationManager.AppSettings["PathUploadServer"];
                             string PathFile = ConfigurationManager.AppSettings["PathUploadCateImage"] + fileName;
                             _categoryService.UpdateCateImage(base64Avatar, res.Id.Value, PathServer, PathFile);
                         }
