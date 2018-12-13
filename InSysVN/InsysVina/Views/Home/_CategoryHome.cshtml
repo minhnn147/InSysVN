@@ -1,0 +1,28 @@
+﻿@model List<LIB.CategoryEntity>
+<div class="title-desc">
+    <h2 class="display-4 display-title anim-1" title="Danh mục">Danh mục</h2>
+</div>
+@foreach (var item in Model)
+{
+    <div class="slide">
+        <div class="slide-wrapper">
+            <div class="item-wrapper">
+                <div class="illustr">
+                    <img class="img img-block" src="@item.ImagePath" alt="Image">
+                </div>
+                <div class="legend">
+                    <a href="item.html#project_url">
+                        <h3>@item.Name</h3>
+                        <p>
+                            @Html.Raw(@item.Description)
+                        </p>
+                    </a>
+                    <a class="btn btn-transp-arrow btn-primary" href="/Category/@item.Id">
+                        <span class="text">Xem chi tiết</span>
+                        <span class="icon arrow-right"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
