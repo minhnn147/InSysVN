@@ -1,0 +1,63 @@
+﻿@{
+    var listMenu = WebApplication.Helpers.GenMenu.GetListMenu();
+    if (listMenu.Count > 0)
+    {
+<div class="menu_section">
+    @{
+        var listCategory = listMenu.Where(t => t.IdCategory != null).ToList();
+        foreach (var itcate in listCategory)
+        {
+            var listMenuParent = listMenu.Where(t => t.Category == itcate.IdCategory && t.ParentId == null).ToList();
+            if (listMenuParent.Count > 0)
+            {
+                <div style="font-size:16px;background-color:#1c3148;padding:10px 0"><h3>@itcate.Text</h3></div>
+                <ul class="nav side-menu">
+                    @{
+                        foreach (var menuParent in listMenuParent)
+                        {
+                            var listMenuChild = listMenu.Where(t => t.ParentId == menuParent.Id).ToList();
+                            if (listMenuChild.Count == 0)
+                            {
+                                <li>
+                                    <a href="@menuParent.URL" class="menu-item" data-type="input">
+                                        <i class="@menuParent.ClassIcon"></i> @menuParent.Text
+                                        @{
+                                            if (menuParent.Shortcut != null)
+                                            {
+                                                <span style='color: coral; float:right' class='shortcut'>@menuParent.Shortcut</span>
+                                            }
+                                        }
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <a><i class="@menuParent.ClassIcon"></i> @menuParent.Text<span class="fas fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        @{
+                                            foreach (var menuChild in listMenuChild)
+                                            {
+                                                <li><a href="@menuChild.URL" class="menu-item" data-type="input"> @menuChild.Text</a></li>
+                                            }
+                                        }
+                                    </ul>
+                                </li>
+                            }
+
+                        }
+                    }
+                </ul>
+            }
+
+        }
+    }
+
+</div>
+    }
+    else
+    {
+
+    }
+}
+

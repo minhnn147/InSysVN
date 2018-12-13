@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-textdirection="ltr" class="loading">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="description" content="Quản trị website InSysVina">
+    <meta name="keywords" content="Quản trị InSysVina">
+    <meta name="author" content="InSysVina">
+    <title>Quản trị trang Web - InSysVina</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/App_Assets/images/ico/favicon.ico">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    @Styles.Render("~/Content/css/login")
+</head>
+<body>
+    @RenderBody()
+    <footer>
+        <div style="display:table;width:100%">
+            <div style="display:table-cell;padding:8px 15px;">
+                Copyright  &copy; 2017, All rights reserved.
+            </div>
+            <div style="display:table-cell;text-align:right;padding:8px 15px;">
+                Design by InSysVN<i class="ft-heart pink"></i>
+            </div>
+        </div>
+    </footer>
+    <script src="~/Content/js/jquery.min.js"></script>
+    <script src="~/Content/js/bootstrap.min.js"></script>
+    @RenderSection("scripts_plugins", false)
+    @RenderSection("scripts", false)
+</body>
+</html>
