@@ -1,0 +1,54 @@
+﻿@using LIB.Model
+@using WebApplication.Authorize
+@{
+    ViewBag.Title = "Quản lý người dùng";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var AllRole = ViewBag.AllRole as List<RoleEntity>;
+    var acc = User as CustomPrincipal;
+}
+@section styles_plugins{
+    <link href="~/Content/css/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="~/Content/css/bootstrap-editable.css" rel="stylesheet" />
+    <link href="~/Content/css/select2.min.css" rel="stylesheet" />
+
+}
+@section scripts_plugins{
+    <script src="~/Content/js/bootstrap-table.min.js"></script>
+    <script src="~/Content/js/bootstrap-table-vi-VN.min.js"></script>
+    <script src="~/Content/js/bootstrap-editable.min.js"></script>
+    <script src="~/Content/js/bootstrap-table-editable.min.js"></script>
+    <script src="~/Content/js/select2.full.min.js"></script>
+}
+@section scripts{
+    <script src="~/Areas/Admin/Scripts/Controller/Users.js"></script>
+}
+<div class="panel panel-default">
+    <div class="panel-heading">Quản lý người dùng</div>
+    <div class="panel-body">
+        <div id="toolbar">
+            <form id="filter" class="form-inline" onsubmit="ctrlUser.RefreshTable(); return false;">
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">Quyền</span>
+                        <select class="form-control" id="drdRoles">
+                            <option>Tất cả</option>
+                            @foreach (var item in AllRole)
+                            {
+                                <option value="@item.Id">@item.DisplayName</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">Từ khóa</span>
+                        <input type="text" name="txtSearch" class="form-control" />
+                        <span class="input-group-btn">
+                            <button type="button" id="btnSearch" class="btn btn-primary">Tìm kiếm</button>
+                            @Html.ActionLink("Thêm Mới", "Create", null, new { @class = "btn btn-success", @style = "margin-left:15px" })
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <table id="tblUser" data-toolbar="#toolbar"></table>
+    </div>
+</div>

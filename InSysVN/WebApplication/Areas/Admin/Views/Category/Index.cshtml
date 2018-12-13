@@ -1,0 +1,46 @@
+﻿@using LIB
+@using WebApplication.Authorize
+@{
+    /**/
+    ViewBag.Title = "Danh mục sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var list = ViewBag.listCategory as List<CategoryEntity>;
+    var acc = User as CustomPrincipal;
+}
+@section styles_plugins{
+    <link rel="stylesheet" type="text/css" href="~/Content/css/jquery.treegrid.css" />
+    <link href="~/Content/css/checkbox.css" rel="stylesheet" />
+}
+@section scripts_plugins{
+    <script src="~/Content/js/jquery.treegrid.min.js"></script>
+    <script src="~/Areas/Admin/Scripts/Controller/Category.js"></script>
+}
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#tblCategory").treegrid({ initialState: 'collapsed' });
+        })
+    </script>
+    <script src="~/Content/js/bootstrap-table.min.js"></script>
+}
+<div class="panel panel-info">
+    <div class="panel-heading">
+        QUẢN LÝ DANH MỤC
+    </div>
+    <div class="panel-body">
+        <div class="clearfix" style="margin-bottom:10px;">
+            <div class="pull-left">
+                @Html.ActionLink("Thêm Mới Danh Mục", "Create", "Category", new { @class = "btn btn-success" })
+                <form class="form-inline">
+                    <input id="ipIECategory" type="file" name="fileImportExcel" style="display:none" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+                </form>
+
+            </div>
+            <div class="pull-right">
+                <input class="form-control" id="ipSearch" placeholder="Tìm kiếm" />
+            </div>
+        </div>
+        <table id="tblCategory" class="table table-hover table-bordered"></table>
+    </div>
+</div>
+

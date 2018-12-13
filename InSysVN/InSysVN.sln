@@ -15,8 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication", "WebApplic
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "DatabaseCompare", "DatabaseCompare\DatabaseCompare.sqlproj", "{38F5C3B5-ECF3-43DC-93BE-C2B26AD2A0EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InSys", "InSys\InSys.csproj", "{D72AD65D-8E32-48E3-817E-C1F18AFE1FE5}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,14 +75,6 @@ Global
 		{38F5C3B5-ECF3-43DC-93BE-C2B26AD2A0EA}.Release|x86.ActiveCfg = Release|Any CPU
 		{38F5C3B5-ECF3-43DC-93BE-C2B26AD2A0EA}.Release|x86.Build.0 = Release|Any CPU
 		{38F5C3B5-ECF3-43DC-93BE-C2B26AD2A0EA}.Release|x86.Deploy.0 = Release|Any CPU
-		{D72AD65D-8E32-48E3-817E-C1F18AFE1FE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D72AD65D-8E32-48E3-817E-C1F18AFE1FE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D72AD65D-8E32-48E3-817E-C1F18AFE1FE5}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{D72AD65D-8E32-48E3-817E-C1F18AFE1FE5}.Debug|x86.Build.0 = Debug|Any CPU
-		{D72AD65D-8E32-48E3-817E-C1F18AFE1FE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D72AD65D-8E32-48E3-817E-C1F18AFE1FE5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D72AD65D-8E32-48E3-817E-C1F18AFE1FE5}.Release|x86.ActiveCfg = Release|Any CPU
-		{D72AD65D-8E32-48E3-817E-C1F18AFE1FE5}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

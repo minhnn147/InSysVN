@@ -1,0 +1,38 @@
+﻿@using WebApplication.Authorize
+@{
+    var acc = User as CustomPrincipal;
+}
+<nav>
+    <div class="nav toggle">
+        <a id="menu_toggle"><i class="fas fa-bars"></i></a>
+    </div>
+    
+    <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+            <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                <img src="@acc.AvatarImg" alt="">
+                @acc.FullName
+                <span class="fas fa-angle-down"></span>
+            </a>
+
+            <ul class="dropdown-menu dropdown-usermenu pull-right">
+                <li>
+                    <a href="Login/YourProfile" class="dropdown-item">
+                        <i class="fas fa-user-cog"></i> Thông tin cá nhân
+                    </a>
+                </li>
+                <li>
+                    <a href="Login/ChangePassword" class="dropdown-item">
+                        <i class="fas fa-key"></i> Đổi mật khẩu
+                    </a>
+                </li>
+                <li style="border-top:1px solid #000">
+                    <a href="Login/Logout" class="dropdown-item">
+                        <i class="fas fa-sign-out-alt"></i> Thoát
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+</nav>

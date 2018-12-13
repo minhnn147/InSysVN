@@ -1,146 +1,222 @@
-﻿@using WebApplication.Authorize
-@{
-    var acc = User as CustomPrincipal;
-}
-<!DOCTYPE html>
-<html lang="en" data-textdirection="ltr" class="loading">
+﻿
+<!doctype html>
+<!--
+Website By Miradontsoa / MiVFX
+http://twitter.com/miradontsoa
+http://miradontsoa.com
+-->
+
+<html class="no-js" lang="en">
+
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-    <meta name="description" content="Quản trị website InSysVina">
-    <meta name="keywords" content="Quản trị website InSysVina">
-    <meta name="author" content="InSysVina">
-    <title>Quản trị website InSysVina</title>
-    <link rel="shortcut icon" type="image/x-icon" href="/App_Assets/images/ico/favicon.ico">
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-    @Styles.Render("~/Content/css")
-    @RenderSection("styles_plugins", false)
-    <style>
-        a.on_top {
-            opacity: 0.6;
-            display: none;
-        }
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
-            a.on_top:hover {
-                background-color: #007bb6;
-                color: #fff;
-                border: 1px solid #007bb6;
-                opacity: 1;
-            }
+    <!-- Page Title Here -->
+    <title>Casely - A portfolio / onepage template</title>
 
-            a.on_top i {
-                font-size: 20px;
-            }
+    <!-- Meta -->
+    <!-- Page Description Here -->
+    <meta name="description" content="A beautiful and creative portfolio template. It is mobile friend (responsive) and comes with smooth animations">
 
-        a.on_top {
-            border-radius: 6px;
-            background-color: #333333;
-            padding: 10px 20px;
-            white-space: nowrap;
-            color: #fff;
-            position: fixed;
-            bottom: 45px;
-            right: 30px;
-            height: 40px;
-        }
-    </style>
+    <!-- Disable screen scaling-->
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, user-scalable=0">
+
+    <!-- Twitter Meta -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Page Title">
+    <meta name="twitter:description" content="Description of the page">
+    <meta name="twitter:image" content="~/Assets/img/bg-default.jpg">
+
+    <!-- Facebook Meta -->
+    <meta property="og:url" content="your website url here">
+    <meta property="og:title" content="Page Title">
+    <meta property="og:description" content="Description of the page">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="/img/bg-default.jpg">
+    <meta property="og:image:secure_url" content="/img/bg-default.jpg">
+    <meta property="og:image:type" content="image/jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <!-- Place favicon.ico and apple-touch-icon(s) in the root directory -->
+    <!-- Web fonts and Web Icons -->
+    <link rel="stylesheet" href="~/Assets/frontend/fonts/opensans/stylesheet.css">
+    <link rel="stylesheet" href="~/Assets/frontend/fonts/bebas/stylesheet.css">
+    <link rel="stylesheet" href="~/Assets/frontend/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="~/Assets/frontend/fonts/font-awesome.min.css">
+
+    <!-- Vendor CSS style -->
+    <link rel="stylesheet" href="~/Assets/frontend/css/pageloader.css">
+
+    <!-- Uncomment below to load individualy vendor CSS -->
+    <link rel="stylesheet" href="~/Assets/frontend/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Assets/frontend/js/vendor/swiper.min.css">
+    <link rel="stylesheet" href="~/Assets/frontend/js/vendor/jquery.fullpage.min.css">
+    <link rel="stylesheet" href="~/Assets/frontend/js/vegas/vegas.min.css">
+
+    <!-- Main CSS files -->
+    <link rel="stylesheet" href="~/Assets/frontend/css/main.css">
+    <link href="~/Content/toastr.css" rel="stylesheet" />
+    <!-- add alt layout here -->
+    <!--<link rel="stylesheet" href="./css/style-default.css">-->
+
+    <script src="~/Assets/frontend/js/vendor/modernizr-2.7.1.min.js"></script>
 </head>
 
-<body class="nav-md">
-    <div class="container body">
-        <div class="main_container">
-            <div class="col-md-3 left_col menu_fixed">
-                <div class="left_col scroll-view">
-                    <div class="navbar nav_title">
-                        <a href="/Home" class="site_title" style="vertical-align:middle;border-bottom:1px solid #33485f"><i class="fas fa-chart-line"></i> <span>INSYS ViNa</span></a>
-                    </div>
-
-                    <div class="clearfix"></div>
-                    <!-- menu profile quick info -->
-                    <div class="profile clearfix">
-                        <div class="profile_pic">
-                            <img src="@acc.AvatarImg" alt="..." class="img-circle profile_img">
-                        </div>
-                        <div class="profile_info">
-                            <span>Xin chào,</span>
-                            <h2>@acc.FullName</h2>
-                        </div>
-                    </div>
-                    <!-- /menu profile quick info -->
-
-                    <br />
-
-                    <!-- sidebar menu -->
-                    <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-                        @*@if (UserFull.RoleId != (int)WebApplication.Authorize.enumRole.)
-                            {*@
-                        @RenderPage("_PMenu.cshtml")
-
-                        @* } *@
-                    </div>             
-                </div>
-            </div>
-            <div class="right_col" role="main">
-                <!-- top navigation -->
-
-                <div class="top_nav navbar-fixed-top">
-                    <div class="nav_menu bg-gradient-x-grey-blue">
-                        @RenderPage("_PNavFixTop.cshtml")
-                    </div>
-                </div>
-                <!-- /top navigation -->
-                <!-- page content -->
-                <div style="padding-top:46px;">
-                    <div class="content-body">
-                        @RenderBody()
-                    </div>
-                </div>
-            </div>
-            <!-- /page content -->
-            <!-- footer content -->
-            <footer class="navbar-fixed-bottom">
-                <span>Copyright  &copy; 2018.</span><span class="float-md-right d-xs-block d-md-inline-block">Design by InSysVina <i class="ft-heart pink"></i></span>
-            </footer>
-            <!-- /footer content -->
+<body id="menu" class="body-page">
+    <!--[if lt IE 8]>
+              <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+          <![endif]-->
+    <!-- Page Loader : just comment these lines to remove it -->
+    <div class="page-loader" id="page-loader">
+        <div>
+            <div class="icon ion-spin"></div>
+            <p>loading</p>
         </div>
     </div>
-    <a class="on_top" href="#top" style="display: block;"><i class="fa-arrow-circle-up fa"></i></a>
-    @* Js Default Theme and app *@
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/autonumeric@4.1.0"></script>
-    <script src="~/Content/js/define/Define_AutoNumeric.js"></script>
-    @Scripts.Render("~/Content/js");
-    @RenderSection("scripts_plugins", false)
-    @RenderSection("scripts", false)
+    <!-- BEGIN OF site header Menu -->
+    <header class="page-header navbar page-header-alpha scrolled-white menu-right topmenu-right">
 
-    <script>
-        $(document).ready(function () {
-            moment.locale("vi");
-            app.init();
-            //app.component.Loading.Show();
-        });
-        $(document).ajaxStop(function () {
-            app.component.Loading.Hide();
-        });
-    </script>
-    <!-- BEGIN PAGE LEVEL JS-->
-    <!-- END PAGE LEVEL JS-->
-    <script type='text/javascript'>
-        $(document).ready(function () {
-            $(window).scroll(function () {
-                if ($(this).scrollTop() > 200) {
-                    $('#on_top').fadeIn();
-                } else {
-                    $('#on_top').fadeOut();
-                }
-            });
-            $('#on_top').click(function () {
-                $("html, body").animate({ scrollTop: 0 }, 600);
-                return false;
-            });
-        });
-    </script>
+        <!-- Begin of menu icon toggler -->
+        <button class="navbar-toggler site-menu-icon" id="navMenuIcon">
+            <!-- Available class : menu-icon-dot / menu-icon-thick /menu-icon-random -->
+            <span class="menu-icon menu-icon-normal">
+                <span class="bars">
+                    <span class="bar1"></span>
+                    <span class="bar2"></span>
+                    <span class="bar3"></span>
+                </span>
+            </span>
+        </button>
+        <!-- End of menu icon toggler -->
+        <!-- Begin of logo/brand -->
+        <a class="navbar-brand" href="./#">
+            <span class="logo">
+                <img class="light-logo" src="/Assets/frontend/img/Logocty.png" alt="Logo">
+            </span>
+            @*<span class="text">
+                    <span class="line">Casely</span>
+                    <span class="line sub">Portfolio Template</span>
+                </span>*@
+        </a>
+        <!-- End of logo/brand -->
+        <!-- begin of menu wrapper -->
+        <div class="all-menu-wrapper" id="navbarMenu">
+            <!-- Begin of top menu -->
+            <nav class="navbar-topmenu">
+                <!-- Begin of CTA Actions, & Icons menu -->
+                <!-- <ul class="navbar-nav navbar-nav-actions">
+                        <li class="nav-item">
+                            <a class="btn btn-outline-white btn-round" target="_blank" href="https://themeforest.net/user/mivfx/portfolio">
+                                Buy Now
+                            </a>
+                        </li>
+                    </ul> -->
+                <!-- End of CTA & Icons menu -->
+            </nav>
+            <!-- End of top menu -->
+            <!-- Begin of hamburger mainmenu menu -->
+            <nav class="navbar-mainmenu">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="./index.html#home">
+                            Home
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./gallery.html">Gallery</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./item.html">Item</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./demo.html">Demo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./item.html">Item</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./demo.html">Demo</a>
+                    </li>
+                </ul>
+            </nav>
+            <!-- End of hamburger mainmenu menu -->
+
+        </div>
+        <!-- end of menu wrapper -->
+
+    </header>
+    <!-- END OF site header Menu-->
+    <!-- BEGIN OF page cover -->
+    <div class="hh-cover page-cover">
+        <!-- Cover Background -->
+        <div class="cover-bg bg-img " data-image-src="/Assets/frontend/img/bg.png"></div>
+
+        <!-- Particles as background - uncomment below to use particles/snow -->
+        <div id="particles-js" class="cover-bg pos-abs full-size bg-color" data-bgcolor="rgba(2, 3, 10, 0.7)"></div>
+    </div>
+    <!--END OF page cover -->
+    <!-- BEGIN OF page main content -->
+    <main class="page-main page-fullpage main-anim" id="mainpage">
+        @RenderBody()
+    </main>
+    <!-- END OF page main content -->
+    <!-- BEGIN OF page footer -->
+    <footer id="site-footer" class="page-footer">
+
+        <!-- Right content -->
+        <div class="footer-right">
+            <p class="note">
+                Casely by
+                <a href="http://highhay.com">
+                    <span class="marked">Miradontsoa</span>
+                </a>
+            </p>
+            <ul class="social">
+                <li>
+                    <a href="//facebook.com/miradontsoa">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="//twitter/miradontsoa">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="//instagram.com/miradontsoa">
+                        <i class="icon fa fa-instagram"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </footer>
+    <!-- END OF site footer -->
+    <!-- scripts -->
+    <!-- All Javascript plugins goes here -->
+    <script src="~/Assets/frontend/js/vendor/jquery-1.12.4.min.js"></script>
+    <script src="~/Assets/frontend/js/slick/slick.min.js"></script>
+
+    <!-- All vendor scripts -->
+    <script src="~/Assets/frontend/js/vendor/parallax.min.js"></script>
+    <script src="~/Assets/frontend/js/vendor/scrolloverflow.min.js"></script>
+    <script src="~/Assets/frontend/js/vendor/all.js"></script>
+    <script src="~/Assets/frontend/js/particlejs/particles.min.js"></script>
+
+    <!-- Countdown script -->
+    <script src="~/Assets/frontend/js/jquery.downCount.js"></script>
+
+    <!-- Form script -->
+    <script src="~/Assets/frontend/js/form_script.js"></script>
+
+    <!-- Javascript main files -->
+    <script src="~/Assets/frontend/js/main.js"></script>
+
+    <script src="~/Assets/frontend/js/particlejs/particles-init.js"></script>
+    <script src="~/Scripts/toastr.js"></script>
+    <script src="~/Scripts/controller/contactus.js"></script>
 </body>
+
 </html>

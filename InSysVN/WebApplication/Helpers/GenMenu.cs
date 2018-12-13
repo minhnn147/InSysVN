@@ -48,7 +48,7 @@ namespace WebApplication.Helpers
                 {
                     Id = 3,
                     Text = "Quản lý danh mục",
-                    URL = "/Category/Index",
+                    URL = "/Admin/Category",
                     ParentId = null,
                     ClassIcon = "fas fa-suitcase",
                     Category = 1
@@ -59,8 +59,8 @@ namespace WebApplication.Helpers
                 listMenu.Add(new MenuModel()
                 {
                     Id = 4,
-                    Text = "Sản phẩm",
-                    URL = "/Products/Index",
+                    Text = "Quản lý sản phẩm",
+                    URL = "/Admin/Products",
                     ParentId = null,
                     ClassIcon = "fas fa-th",
                     Category = 1
@@ -71,8 +71,8 @@ namespace WebApplication.Helpers
                 listMenu.Add(new MenuModel()
                 {
                     Id = 4,
-                    Text = "Sản phẩm",
-                    URL = "/Products/Index",
+                    Text = "Quản lý tin tức",
+                    URL = "/Admin/News",
                     ParentId = null,
                     ClassIcon = "fas fa-th",
                     Category = 1
@@ -116,7 +116,7 @@ namespace WebApplication.Helpers
                 {
                     Id = 12,
                     Text = "Q.lý người dùng",
-                    URL = "/Users",
+                    URL = "/Admin/Users",
                     ParentId = null,
                     ClassIcon = "fas fa-users-cog",
                     Category = 3
