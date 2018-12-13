@@ -1,269 +1,861 @@
-﻿@using LIB.Warehouses
-@using WebApplication.Authorize
+﻿
 @{
-    ViewBag.Title = "Trang Chủ";
+    ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var acc = User as CustomPrincipal;
-    var AllWarehouse = ViewBag.AllWarehouse as List<WarehousesEntity>;
 }
-<div class="content_body">
-    <div class="panel-title">
-        <table style="width:100%">
-            <tr>
-                <td>THỐNG KÊ</td>
-                <td>
-                    <div class="form-inline">
-                        <div class="input-group pull-right" style="margin-bottom:0;">
-                            <span class="input-group-btn btn-group-sm">
-                                <label class="btn btn-default"><input type="radio" value="1" name="rdSearch" checked /> Hôm nay</label>
-                                <label class="btn btn-default"><input type="radio" value="2" name="rdSearch" /> Tuần này</label>
-                                <label class="btn btn-default"><input type="radio" value="3" name="rdSearch" /> Tháng này</label>
-                                <label class="btn btn-default"><input type="radio" value="4" name="rdSearch" /> Năm nay</label>
-                            </span>
-                        </div>
-                        @if (acc.IsSupperAdmin)
-                        {
-                            <div class="input-group pull-left">
-                                <span class="input-group-addon">ShowRoom</span>
-                                <select class="form-control" id="drdWarehouse">
-                                    <option>Tất Cả</option>
-                                    @foreach (var item in AllWarehouse)
-                                    {
-                                        <option value="@item.Id">@item.Name</option>
-                                    }
-                                </select>
-                            </div>
-                        }
+
+<!-- Begin of home section -->
+<div class="section section-home fullscreen-md fp-auto-height-responsive main-home section-centered"
+     data-section="home">
+    <!-- Begin of section wrapper -->
+    <div class="section-wrapper fullwidth with-margin v-center">
+        <!-- content -->
+        <div class="section-content anim">
+            <div class="row">
+                <div class="col-12 col-lg-6 text-left">
+                    <!-- title and description -->
+                    <div class="title-desc">
+                        <h1 class="display-4 display-title home-title decor anim-1">Insys Vina</h1>
+                        <h4 class="anim-2">Hello, we build things</h4>
+                        <p class="anim-2">
+                            Success is a journey, not a destination
+                        </p>
                     </div>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="title-group">
-                <span>Top 10 sản phẩm bán chạy</span>
-            </div>
-            <canvas id="chartTop10" height="250"></canvas>
 
+                    <!-- Action button -->
+                    <div class="btns-action anim-3">
+                        <a class="btn btn-circicon btn-primary" href="#about">
+                            <span class="icon">
+                                <i class="ion ion-chevron-down"></i>
+                            </span>
+                            <span class="text">About</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
         </div>
 
-        <div class="col-md-6">
-            <div class="title-group">
-                <span>Doanh thu từng cửa hàng</span>
+        <div class="section-aside aside-bottom">
+            <div class="text-right">
+
             </div>
-            <canvas id="chartRevenue" height="250"></canvas>
+            <!-- Action button -->
+            <div class="btns-action anim-3 text-right">
+                <a class="btn btn-outline-white btn-round" href="#contact">
+                    Contact
+                </a>
+            </div>
         </div>
+
+
+        <!-- Arrows scroll down/up -->
+        <footer class="section-footer scrolldown">
+            <a class="down">
+                <span class="icon"></span>
+                <span class="txt">Scroll Down</span>
+            </a>
+        </footer>
     </div>
+    <!-- End of section wrapper -->
 </div>
-@section scripts{
-    <script>
-        function setClipboard(data) {
-            document.addEventListener('copy', function (e) {
-                e.clipboardData.setData('text/plain', data);
-                e.preventDefault();
-            });
-        }
-        var chartTop10 = new Chart($('#chartTop10'), {
-            type: 'horizontalBar',
-            data: {
-                labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
-                datasets: [{
-                    label: 'Đã bán',
-                    data: [],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)',
-                        'rgba(21, 69, 118, 0.2)',
-                        'rgba(1, 165, 141, 0.2)',
-                        'rgba(239, 51, 49, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)',
-                        'rgba(21, 69, 118, 1)',
-                        'rgba(1, 165, 141, 1)',
-                        'rgba(239, 51, 49, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                tooltips: {
-                    callbacks: {
-                        label: function (tooltipItem, data) {
-                            var label = data.datasets[tooltipItem.datasetIndex].label || '';
-                            if (label) {
-                                label += ': ';
-                            }
-                            label += formatNumber(tooltipItem.xLabel);
-                            return label;
-                        }
-                    }
-                },
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true,
-                            callback: function (value) {
-                                return formatNumber(value);
-                            }
-                        }
-                    }]
-                },
-                animation: {
-                    duration: 1,
-                    onComplete: function () {
-                        var chartInstance = this.chart,
-                            ctx = chartInstance.ctx;
-                        ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
-                        ctx.textAlign = 'center';
-                        ctx.textBaseline = 'bottom';
-                        this.data.datasets.forEach(function (dataset, i) {
-                            var meta = chartInstance.controller.getDatasetMeta(i);
-                            meta.data.forEach(function (bar, index) {
-                                var data = dataset.data[index];
-                                ctx.fillStyle = dataset.borderColor;
-                                ctx.fillText(formatNumber(data), bar._model.x + 10, bar._model.y + 8);
-                            });
-                        });
-                    }
-                },
-                hover: {
-                    animationDuration: 0,
-                },
-                responsiveAnimationDuration: 0,
-                legend: {
-                    display: false
-                }
-            }
-        });
+<!-- End of home section -->
+<!-- Begin of description section -->
+<div class="section section-description fp-auto-height-responsive " data-section="about">
+    <!-- Begin of section wrapper -->
+    <div class="section-wrapper fullwidth with-margin">
+
+        <!-- content -->
+        <div class="section-content anim">
+            <div class="row">
+                <div class="col-12 col-md-6 text-left">
+                    <!-- title and description -->
+                    <div class="title-desc">
+                        <h1 class="display-4 display-title anim-1">About</h1>
+                        <h4 class="anim-2">We build things</h4>
+                        <p class="anim-2">
+                            This describes what we do and what is our mission. At right you can
+                            see the awesome people behind. Lorem ipsum magicum dolor sit amet,
+                            consectetur adipiscing elit. Maecenas a sem ultrices neque vehicula
+                            fermentum a sit amet nulla.
+                        </p>
+                    </div>
+
+                    <!-- Action button -->
+                    <div class="btns-action anim-3">
+                        <a class="btn btn-circicon btn-primary" href="#projects-featured">
+                            <span class="icon">
+                                <i class="ion ion-chevron-down"></i>
+                            </span>
+                            <span class="text">Selected Works</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- aside -->
+        <div class="section-aside aside-bottom anim small-relative">
+            <div class="a-wrapper anim-4">
+                <!-- begin of slider carousel-swiper-alpha -->
+                <div class="slider-wrapper carousel-swiper-alpha carousel-swiper-alpha-demo">
+                    <!-- slider -->
+                    <div class="slider-container swiper-container">
+                        <ul class="item-list swiper-wrapper">
+                            <!-- item -->
+                            <li class="slide-item swiper-slide">
+                                <div class="item-wrapper">
+                                    <div class="illustr">
+                                        <img src="~/Assets/frontend/img/items/img-people1.jpg" alt="Image" class="img">
+                                    </div>
+                                    <div class="legend">
+                                        <h3 class="title">Geraldine Cyclone</h3>
+                                        <h4>Senior Designer</h4>
+                                        <div class="icons">
+                                            <a class="icon-btn" href="#">
+                                                <i class="icon fa fa-instagram"></i>
+                                            </a>
+                                            <a class="icon-btn" href="#">
+                                                <i class="icon fa fa-twitter"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <!-- item -->
+                            <li class="slide-item swiper-slide">
+                                <div class="item-wrapper">
+                                    <div class="illustr">
+                                        <img src="~/Assets/frontend/img/items/img-people2.jpg" alt="Image" class="img">
+                                    </div>
+                                    <div class="legend">
+                                        <h3 class="title">Jerome Levier</h3>
+                                        <h4>Developer</h4>
+                                        <div class="icons">
+                                            <a class="icon-btn" href="#">
+                                                <i class="icon fa fa-instagram"></i>
+                                            </a>
+                                            <a class="icon-btn" href="#">
+                                                <i class="icon fa fa-twitter"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <!-- item -->
+                            <li class="slide-item swiper-slide">
+                                <div class="item-wrapper">
+                                    <div class="illustr">
+                                        <img src="~/Assets/frontend/img/items/img-people3.jpg" alt="Image" class="img">
+                                    </div>
+                                    <div class="legend">
+                                        <h3 class="title">Nicole Florence</h3>
+                                        <h4>Architect</h4>
+                                        <div class="icons">
+                                            <a class="icon-btn" href="#">
+                                                <i class="icon fa fa-instagram"></i>
+                                            </a>
+                                            <a class="icon-btn" href="#">
+                                                <i class="icon fa fa-twitter"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <!-- item -->
+                            <li class="slide-item swiper-slide">
+                                <div class="item-wrapper">
+                                    <div class="illustr">
+                                        <img src="~/Assets/frontend/img/items/img-people4.jpg" alt="Image" class="img">
+                                    </div>
+                                    <div class="legend">
+                                        <h3 class="title">Tintin Dupon</h3>
+                                        <h4>Photograph</h4>
+                                        <div class="icons">
+                                            <a class="icon-btn" href="#">
+                                                <i class="icon fa fa-instagram"></i>
+                                            </a>
+                                            <a class="icon-btn" href="#">
+                                                <i class="icon fa fa-twitter"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- pagination -->
+                    <div class="items-pagination bar"></div>
+
+                </div>
+                <!-- end of slider carousel-swiper-alpha -->
+
+            </div>
+        </div>
 
 
-        $('#chartTop10').on('click', function (evt) {
-            var activePoint = chartTop10.getElementAtEvent(evt);
-            if (activePoint.length == 1) {
-                setClipboard(activePoint[0]._model.label);
-                document.execCommand("copy");
-                notifyInfo('Đã Coppy Barcode sản phẩm');
-            }
-        });
-        _AjaxPost("/Products/GetChartTop10", { opSearch: $('input[name="rdSearch"]:checked').val() }, function (rs) {
-            if (rs.success) {
-                chartTop10.data.datasets[0].data = rs.listQuantity;
-                chartTop10.data.labels = rs.listLabel;
-                chartTop10.update();
-            }
-            else {
-                notifyError('Lấy dữ liệu biểu đồ Top 10 sản phẩm bán chạy nhất thất bại!');
-            }
-        });
-        var chartRevenue = new Chart($('#chartRevenue'), {
-            type: 'pie',
-            data: {
-                labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-                datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)',
-                        'rgba(21, 69, 118, 0.2)',
-                        'rgba(1, 165, 141, 0.2)',
-                        'rgba(239, 51, 49, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)',
-                        'rgba(21, 69, 118, 1)',
-                        'rgba(1, 165, 141, 1)',
-                        'rgba(239, 51, 49, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                tooltips: {
-                    callbacks: {
-                        label: function (tooltipItem, data) {
-                            var label = data.labels[tooltipItem.index] || '';
-                            if (label) {
-                                label += ': ';
-                            }
-                            label += formatNumber(data.datasets[0].data[tooltipItem.index]);
-                            return label;
-                        }
-                    }
-                },
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            display: false
-                        }
-                    }]
-                },
-                legend: {
-                    position: 'bottom'
-                }
-            }
-        });
-        _AjaxPost("/Orders/GetNevenue", { opSearch: $('input[name="rdSearch"]:checked').val() }, function (rs) {
-            if (rs.success) {
-                chartRevenue.data.datasets[0].data = rs.listRevenue;
-                chartRevenue.data.labels = rs.listLabel;
-                chartRevenue.update();
-            }
-            else {
-                notifyError('Lấy dữ liệu biểu đồ doanh thu thất bại!');
-            }
-        });
-        $('input[name="rdSearch"]').on('change', function () {
-            getReport();
-        });
-        $('#drdWarehouse').on('change', function () {
-            getReport();
-        });
-        function getReport() {
-            _AjaxPost("/Products/GetChartTop10", { opSearch: $('input[name="rdSearch"]:checked').val(), IDWarehouse: $("#drdWarehouse").val() }, function (rs) {
-                if (rs.success) {
-                    chartTop10.data.datasets[0].data = rs.listQuantity;
-                    chartTop10.data.labels = rs.listLabel;
-                    chartTop10.update();
-                }
-                else {
-                    notifyError('Lấy dữ liệu biểu đồ Top 10 sản phẩm bán chạy nhất thất bại!');
-                }
-            });
-            _AjaxPost("/Orders/GetNevenue", { opSearch: $('input[name="rdSearch"]:checked').val(), IDWarehouse: $("#drdWarehouse").val() }, function (rs) {
-                if (rs.success) {
-                    chartRevenue.data.datasets[0].data = rs.listRevenue;
-                    chartRevenue.data.labels = rs.listLabel;
-                    chartRevenue.update();
-                }
-                else {
-                    notifyError('Lấy dữ liệu biểu đồ doanh thu thất bại!');
-                }
-            });
+        <!-- Arrows scroll down/up -->
+        <footer class="section-footer scrolldown">
+            <a class="down">
+                <span class="icon"></span>
+                <span class="txt">Works</span>
+            </a>
+        </footer>
+    </div>
+    <!-- End of section wrapper -->
+</div>
+<!-- End of description section -->
+<!-- Begin of slider section -->
+@*<div class="section section-twoside project-slider fp-auto-height-responsive " data-section="projects-featured">
+    <div class="section-wrapper fullwidth with-margin" style="padding-top:64px !important">
+        <div class="title-desc">
+            <h2 class="display-4 display-title anim-1">Danh mục</h2>
+        </div>
+        @foreach (var item in ViewBag.Category)
+        {
+            <div class="slide">
+                <div class="slide-wrapper">
+                    <div class="item-wrapper">
+                        <div class="illustr">
+                            <img class="img img-block" src="@item.ImagePath" alt="Image">
+                        </div>
+                        <div class="legend">
+                            <a href="item.html#project_url">
+                                <h3>@item.Name</h3>
+                                <p>
+                                    @Html.Raw(@item.Description)
+                                </p>
+                            </a>
+                            <a class="btn btn-transp-arrow btn-primary" href="item.html#project_url">
+                                <span class="text">Xem chi tiết</span>
+                                <span class="icon arrow-right"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         }
-    </script>
-}
+    </div>*@
+    <!-- Arrows scroll down/up -->
+    <footer class="section-footer scrolldown">
+        <a class="down">
+            <span class="icon"></span>
+            <span class="txt">All Works</span>
+        </a>
+    </footer>
+
+</div>
+<!-- End of slider section -->
+<!-- Begin of list projects section -->
+<div class="section section-list-feature fp-auto-height-responsive " data-section="projects">
+
+    <!-- Begin of section wrapper -->
+    <div class="section-wrapper fullwidth with-margin">
+        <!-- content -->
+        <div class="section-content anim">
+            <div class="row">
+                <div class="col-12 col-lg-6 text-left">
+                    <!-- title and description -->
+                    <div class="title-desc">
+                        <h2 class="display-4 display-title anim-1">Projects</h2>
+                        <p class="anim-2">
+                            List of our projects. Lorem ipsum magicum dolor sit amet, consectetur
+                            adipiscing elit. Maecenas a sem ultrices neque vehicula fermentum
+                            a sit amet nulla.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- project list -->
+            <div class="project-list grid-1 grid-md-2 grid-lg-3 anim-list">
+                <!-- an item -->
+                <div class="item media media-project">
+                    <div class="media-img">
+                        <img class="" src="~/Assets/frontend/img/items/img-sample9-square.jpg" alt="An image">
+                    </div>
+                    <div class="media-body">
+                        <a href="item.html#project_url">
+                            <h4>E-learning</h4>
+                            <h3>Coding Course</h3>
+                            <p class="price">$12</p>
+                        </a>
+                    </div>
+                    <div class="media-footer">
+                        <a class="btn btn-transp-arrow btn-primary" href="item.html">
+                            <span class="text">Details</span>
+                            <span class="icon arrow-right"></span>
+                        </a>
+                    </div>
+                </div>
+                <!-- an item -->
+                <div class="item media media-project">
+                    <div class="media-img">
+                        <img class="" src="~/Assets/frontend/img/items/img-sample10-square.jpg" alt="An image">
+                    </div>
+                    <div class="media-body">
+                        <a href="item.html#project_url">
+                            <h4>E-learning</h4>
+                            <h3>Coding Course</h3>
+                            <p class="price">$12</p>
+                        </a>
+                    </div>
+                    <div class="media-footer">
+                        <a class="btn btn-transp-arrow btn-primary" href="item.html">
+                            <span class="text">Details</span>
+                            <span class="icon arrow-right"></span>
+                        </a>
+                    </div>
+                </div>
+                <!-- an item -->
+                <div class="item media media-project">
+                    <div class="media-img">
+                        <img class="" src="~/Assets/frontend/img/items/img-sample11-square.jpg" alt="An image">
+                    </div>
+                    <div class="media-body">
+                        <a href="item.html#project_url">
+                            <h4>E-learning</h4>
+                            <h3>Coding Course</h3>
+                            <p class="price">$12</p>
+                        </a>
+                    </div>
+                    <div class="media-footer">
+                        <a class="btn btn-transp-arrow btn-primary" href="item.html">
+                            <span class="text">Details</span>
+                            <span class="icon arrow-right"></span>
+                        </a>
+                    </div>
+                </div>
+                <!-- an item -->
+                <div class="item media media-project">
+                    <div class="media-img">
+                        <img class="" src="~/Assets/frontend/img/items/img-sample12-square.jpg" alt="An image">
+                    </div>
+                    <div class="media-body">
+                        <a href="item.html#project_url">
+                            <h4>E-learning</h4>
+                            <h3>Coding Course</h3>
+                            <p class="price">$12</p>
+                        </a>
+                    </div>
+                    <div class="media-footer">
+                        <a class="btn btn-transp-arrow btn-primary" href="item.html">
+                            <span class="text">Details</span>
+                            <span class="icon arrow-right"></span>
+                        </a>
+                    </div>
+                </div>
+                <!-- an item -->
+                <div class="item media media-project">
+                    <div class="media-img">
+                        <img class="" src="~/Assets/frontend/img/items/img-sample13-square.jpg" alt="An image">
+                    </div>
+                    <div class="media-body">
+                        <a href="item.html#project_url">
+                            <h4>E-learning</h4>
+                            <h3>Coding Course</h3>
+                            <p class="price">$12</p>
+                        </a>
+                    </div>
+                    <div class="media-footer">
+                        <a class="btn btn-transp-arrow btn-primary" href="item.html">
+                            <span class="text">Details</span>
+                            <span class="icon arrow-right"></span>
+                        </a>
+                    </div>
+                </div>
+                <!-- an item -->
+                <div class="item media media-project">
+                    <div class="media-img">
+                        <img class="" src="~/Assets/frontend/img/items/img-sample14-square.jpg" alt="An image">
+                    </div>
+                    <div class="media-body">
+                        <a href="item.html#project_url">
+                            <h4>E-learning</h4>
+                            <h3>Coding Course</h3>
+                            <p class="price">$12</p>
+                        </a>
+                    </div>
+                    <div class="media-footer">
+                        <a class="btn btn-transp-arrow btn-primary" href="item.html">
+                            <span class="text">Details</span>
+                            <span class="icon arrow-right"></span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+
+        <!-- Arrows scroll down/up -->
+        <footer class="section-footer scrolldown">
+            <a class="down">
+                <span class="icon"></span>
+                <span class="txt">Services</span>
+            </a>
+        </footer>
+    </div>
+    <!-- End of section wrapper -->
+</div>
+<!-- End of list projects section -->
+<!-- Begin of list feature section -->
+<div class="section section-list-feature fp-auto-height-responsive " data-section="services">
+    <!-- section cover -->
+    <div class="section-cover-full bg-img" data-image-src="/Assets/frontend/img/sections/services.png">
+    </div>
+
+    <!-- Begin of section wrapper -->
+    <div class="section-wrapper fullwidth with-margin">
+        <!-- content -->
+        <div class="section-content anim">
+            <div class="row">
+                <div class="col-12 col-lg-6 text-left">
+                    <!-- title and description -->
+                    <div class="title-desc">
+                        <h2 class="display-4 display-title anim-1">Dịch vụ của chúng tôi</h2>
+                        <p class="anim-2">
+                            Chúng tôi luôn đem lại sự hài lòng cho khách hàng
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- service list -->
+            <div class="service-list grid-1 grid-md-2 grid-lg-4 anim-list decor">
+                <!-- an item -->
+                <div class="item media">
+                    <div class="img">
+                        <i class="icon ion-code-working"></i>
+                    </div>
+                    <div class="media-body">
+                        <h4>Tiến độ</h4>
+                        <p>
+                            Chúng tôi luôn hoàn thành tiến độ vượt thời gian
+                        </p>
+
+                        <a class="btn btn-transp-arrow btn-primary" href="">
+                            <span class="text">Details</span>
+                            <span class="icon arrow-right"></span>
+                        </a>
+                    </div>
+                </div>
+                <!-- an item -->
+                <div class="item media">
+                    <div class="img">
+                        <i class="icon ion-ios-cog-outline"></i>
+                    </div>
+                    <div class="media-body">
+                        <h4>Xây dựng</h4>
+                        <p>
+                            Chúng tôi luôn xây dựng những công trình hiện đại
+                        </p>
+
+
+                        <a class="btn btn-transp-arrow btn-primary" href="">
+                            <span class="text">Details</span>
+                            <span class="icon arrow-right"></span>
+                        </a>
+                    </div>
+                </div>
+                <!-- an item -->
+                <div class="item media">
+                    <div class="img">
+                        <i class="icon ion-ios-analytics-outline"></i>
+                    </div>
+                    <div class="media-body">
+                        <h4>Analytics</h4>
+                        <p>
+                            An awesome service that we offer to you. This is just a placeholder
+                            text.
+                        </p>
+
+                        <a class="btn btn-transp-arrow btn-primary" href="">
+                            <span class="text">Details</span>
+                            <span class="icon arrow-right"></span>
+                        </a>
+                    </div>
+                </div>
+                <!-- an item -->
+                <div class="item media">
+                    <div class="img">
+                        <i class="icon ion-ios-grid-view-outline"></i>
+                    </div>
+                    <div class="media-body">
+                        <h4>Design</h4>
+                        <p>
+                            An awesome service that we offer to you. This is just a placeholder
+                            text.
+                        </p>
+
+                        <a class="btn btn-transp-arrow btn-primary" href="">
+                            <span class="text">Details</span>
+                            <span class="icon arrow-right"></span>
+                        </a>
+                    </div>
+                </div>
+                <!-- an item -->
+                <div class="item media">
+                    <div class="img">
+                        <i class="icon ion-ios-albums-outline"></i>
+                    </div>
+                    <div class="media-body">
+                        <h4>Painting</h4>
+                        <p>
+                            An awesome service that we offer to you. This is just a placeholder
+                            text.
+                        </p>
+
+                        <a class="btn btn-transp-arrow btn-primary" href="">
+                            <span class="text">Details</span>
+                            <span class="icon arrow-right"></span>
+                        </a>
+                    </div>
+                </div>
+                <!-- an item -->
+                <div class="item media">
+                    <div class="img">
+                        <i class="icon ion-ios-camera-outline"></i>
+                    </div>
+                    <div class="media-body">
+                        <h4>Photogramhy</h4>
+                        <p>
+                            An awesome service that we offer to you. This is just a placeholder
+                            text.
+                        </p>
+
+                        <a class="btn btn-transp-arrow btn-primary" href="">
+                            <span class="text">Details</span>
+                            <span class="icon arrow-right"></span>
+                        </a>
+                    </div>
+                </div>
+                <!-- an item -->
+                <div class="item media">
+                    <div class="img">
+                        <i class="icon ion-ios-cloud-outline"></i>
+                    </div>
+                    <div class="media-body">
+                        <h4>Hosting</h4>
+                        <p>
+                            An awesome service that we offer to you. This is just a placeholder
+                            text.
+                        </p>
+
+                        <a class="btn btn-transp-arrow btn-primary" href="">
+                            <span class="text">Details</span>
+                            <span class="icon arrow-right"></span>
+                        </a>
+                    </div>
+                </div>
+                <!-- an item -->
+                <div class="item media">
+                    <div class="img">
+                        <i class="icon ion-ios-game-controller-a-outline"></i>
+                    </div>
+                    <div class="media-body">
+                        <h4>Entertainment</h4>
+                        <p>
+                            An awesome service that we offer to you. This is just a placeholder
+                            text.
+                        </p>
+
+                        <a class="btn btn-transp-arrow btn-primary" href="">
+                            <span class="text">Details</span>
+                            <span class="icon arrow-right"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+        <!-- Arrows scroll down/up -->
+        <footer class="section-footer scrolldown">
+            <a class="down">
+                <span class="icon"></span>
+                <span class="txt">Projects</span>
+            </a>
+        </footer>
+    </div>
+    <!-- End of section wrapper -->
+</div>
+<!-- End of list feature section -->
+<!-- Begin of list products section -->
+<div class="section section-grid fp-auto-height-responsive section-centered" data-section="products">
+    <!-- Begin of section wrapper -->
+    <div class="section-wrapper fullwidth with-margin">
+
+
+        <div class="section-content mb-3">
+            <div class="row">
+                <div class="col-12 col-lg-6 text-left">
+                    <!-- title and description -->
+                    <div class="title-desc">
+                        <h2 class="display-4 display-title anim-1">Sản phẩm</h2>
+                        <p class="anim-2">
+                            List of products. Lorem ipsum magicum dolor sit amet, consectetur
+                            adipiscing elit. Maecenas a sem ultrices neque vehicula fermentum
+                            a sit amet nulla.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Begin of item list -->
+        <div class="section-content row justify-content-between">
+            <!-- item  -->
+            <div class="col-12 col-sm-6 col-lg-4 center-vh">
+                <div class="section-content anim translateUp">
+                    <div class="images text-center">
+                        <div class="img-frame-normal">
+                            <div class="img-1 shadow">
+                                <a href="item.html#project_url">
+                                    <img class="img" src="~/Assets/frontend/img/items/img-sample5.jpg" alt="Image">
+                                </a>
+                                <span class="price bottom">
+                                    $39.99
+                                </span>
+                            </div>
+                            <div class="legend text-center decor">
+                                <h3 class="decor">
+                                    <strong>Fish Game</strong>
+                                </h3>
+                                <p>This is just a placeholder text.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- item  -->
+            <div class="col-12 col-sm-6 col-lg-4 center-vh">
+                <div class="section-content anim">
+                    <div class="images text-center">
+                        <div class="img-frame-normal">
+                            <div class="img-1 shadow">
+                                <a href="item.html#project_url">
+                                    <img class="img" src="~/Assets/frontend/img/items/img-sample6.jpg" alt="Image">
+                                </a>
+                                <span class="price bottom">
+                                    $39.99
+                                </span>
+                            </div>
+                            <div class="legend text-center decor">
+                                <h3 class="display-normal">
+                                    <strong>Bird App</strong>
+                                </h3>
+                                <p>This is just a placeholder text.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- item  -->
+            <div class="col-12 col-sm-6 col-lg-4 center-vh">
+                <div class="section-content anim translateDown">
+                    <div class="images text-center">
+                        <div class="img-frame-normal">
+                            <div class="img-1 shadow">
+                                <a href="item.html#project_url">
+                                    <img class="img" src="~/Assets/frontend/img/items/img-sample7.jpg" alt="Image">
+                                </a>
+                                <span class="price bottom">
+                                    $39.99
+                                </span>
+                            </div>
+                            <div class="legend text-center decor">
+                                <h3 class="display-normal">
+                                    <strong>Photo App</strong>
+                                </h3>
+                                <p>This is just a placeholder text.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- item  -->
+            <div class="col-12 col-sm-6 col-lg-4 center-vh">
+                <div class="section-content anim translateUp">
+                    <div class="images text-center">
+                        <div class="img-frame-normal">
+                            <div class="img-1 shadow">
+                                <a href="item.html#project_url">
+                                    <img class="img" src="~/Assets/frontend/img/items/img-sample8.jpg" alt="Image">
+                                </a>
+                                <span class="price bottom">
+                                    $39.99
+                                </span>
+                            </div>
+                            <div class="legend text-center decor">
+                                <h3 class="display-normal">
+                                    <strong>Painting</strong>
+                                </h3>
+                                <p>This is just a placeholder text.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- item  -->
+            <div class="col-12 col-sm-6 col-lg-4 center-vh">
+                <div class="section-content anim">
+                    <div class="images text-center">
+                        <div class="img-frame-normal">
+                            <div class="img-1 shadow">
+                                <a href="item.html#project_url">
+                                    <img class="img" src="~/Assets/frontend/img/items/img-sample9.jpg" alt="Image">
+                                </a>
+                                <span class="price bottom">
+                                    $39.99
+                                </span>
+                            </div>
+                            <div class="legend text-center decor">
+                                <h3 class="display-normal">
+                                    <strong>Software</strong>
+                                </h3>
+                                <p>This is just a placeholder text.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- item  -->
+            <div class="col-12 col-sm-6 col-lg-4 center-vh">
+                <div class="section-content anim translateDown">
+                    <div class="images text-center">
+                        <div class="img-frame-normal">
+                            <div class="img-1 shadow">
+                                <a href="item.html#project_url">
+                                    <img class="img" src="~/Assets/frontend/img/items/img-sample10.jpg" alt="Image">
+                                </a>
+                                <span class="price bottom">
+                                    $39.99
+                                </span>
+                            </div>
+                            <div class="legend text-center decor">
+                                <h3 class="display-normal">
+                                    <strong>Home Decoration</strong>
+                                </h3>
+                                <p>This is just a placeholder text.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End of item list -->
+    </div>
+    <!-- End of section wrapper -->
+</div>
+<!-- End of list products section -->
+<!-- Begin of contact section -->
+<div class="section section-contact fp-auto-height-responsive no-slide-arrows " data-section="contact">
+    <!-- section cover -->
+    <div class="section-cover-full bg-img" data-image-src="/Assets/frontend/img/sections/contact.png">
+    </div>
+
+    <!-- Begin of slide section wrapper -->
+    <div class="section-wrapper fullwidth  with-margin">
+        <!-- main content -->
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-6">
+                <!-- content -->
+                <div class="section-content anim text-left">
+                    <!-- title and description -->
+                    <div class="title-desc">
+                        <div class="anim-2">
+                            <h2 class="display-4 display-title">Liên hệ</h2>
+                            <p>
+                                For questions about our company and products found on our stores.
+                                Cras vitae neque molestie, rhoncus ipsum sit amet, lobortis dui.
+                                Fusce in urna sem.
+                            </p>
+                        </div>
+                        <div class="address-container anim-3">
+
+                            <div class="row">
+                                <div class="col-12 col-md-6 col-lg-6">
+                                    <h4>Contact</h4>
+                                    <p>Call: 01 234 567 89</p>
+                                    <p>Email: ouremail@domain.com</p>
+
+                                    <div class="icons icons-margin">
+                                        <a class="icon-btn" href="#">
+                                            <i class="icon fa fa-instagram"></i>
+                                        </a>
+                                        <a class="icon-btn" href="#">
+                                            <i class="icon fa fa-twitter"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-6">
+                                    <h4>Address</h4>
+                                    <p>
+                                        Company address
+                                        <br>12 Street Turning Place
+                                        <br>South Est, Antartica
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+
+            </div>
+        </div>
+
+
+        <!-- aside content -->
+        <div class="section-aside aside-bottom anim small-relative">
+            <div class="message-form">
+                <h4>Liên hệ với chúng tôi</h4>
+                <div class="form-container form-container-card">
+                    <!-- Message form container -->
+                    <form class="send_message_form message form" method="post"
+                          id="message_form">
+                        <div class="form-group name">
+                            <input id="mes-name" name="name" type="text" placeholder="Họ và tên" class="form-control form-control-outline thick form-success-clean"
+                                   required>
+                        </div>
+                        <div class="form-group email">
+                            <input id="mes-email" type="email" placeholder="Email" name="email" class="form-control form-control-outline thick form-success-clean"
+                                   required>
+                        </div>
+                        <div class="form-group email">
+                            <input id="mes-phone" type="text" placeholder="Điện thoại" name="phone" class="form-control form-control-outline thick form-success-clean"
+                                   required>
+                        </div>
+                        <div class="form-group no-border">
+                            <textarea id="mes-text" placeholder="Nội dung ..." name="message" class="form-control form-control-outline thick form-success-clean"
+                                      required></textarea>
+                        </div>
+
+                        <div class="btns text-right">
+                            <button id="submit-message" class="btn btn-outline-white btn-round btn-fullNot email_b"
+                                    name="submit_message">
+                                <span class="txt">Gửi ngay</span>
+                                <span class="arrow-icon"></span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End of slide section wrapper -->
+
+</div>
+<!-- End of contact section -->

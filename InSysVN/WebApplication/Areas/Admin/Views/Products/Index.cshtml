@@ -1,0 +1,40 @@
+﻿@using LIB
+@using WebApplication.Authorize
+@{
+    /**/
+    ViewBag.Title = "Quản lý sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var acc = User as CustomPrincipal;
+}
+@section styles_plugins{
+    <link rel="stylesheet" type="text/css" href="~/Content/css/jquery.treegrid.css" />
+    <link href="~/Content/css/checkbox.css" rel="stylesheet" />
+}
+@section scripts_plugins{
+    <script src="~/Content/js/jquery.treegrid.min.js"></script>
+<script src="~/Areas/Admin/Scripts/Controller/Products.js"></script>
+}
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#tblCategory").treegrid({ initialState: 'collapsed' });
+        })
+    </script>
+    <script src="~/Content/js/bootstrap-table.min.js"></script>
+}
+<div class="panel panel-info">
+    <div class="panel-heading">
+        QUẢN LÝ SẢN PHẨM
+    </div>
+    <div class="panel-body">
+        <div class="clearfix" style="margin-bottom:10px;">
+            <div class="pull-left">
+                @Html.ActionLink("Thêm Mới Sản Phẩm", "Create", "Products", new { @class = "btn btn-success" })
+            </div>
+            <table id="tableProducts" class="table table-hover table-bordered"></table>
+        </div>
+    </div>
+</div>
+
+
+

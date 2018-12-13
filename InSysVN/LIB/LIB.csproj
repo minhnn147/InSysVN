@@ -113,6 +113,8 @@
     <Compile Include="Module\IModule.cs" />
     <Compile Include="Module\IplModule.cs" />
     <Compile Include="Module\ModuleEntity.cs" />
+    <Compile Include="News\INews.cs" />
+    <Compile Include="News\IplNews.cs" />
     <Compile Include="News\NewsEntity.cs" />
     <Compile Include="ProductCate\IplProductCate.cs" />
     <Compile Include="ProductCate\ProductCateEntity.cs" />
@@ -126,9 +128,6 @@
     <Compile Include="Stall\IplStall.cs" />
     <Compile Include="Stall\IStall.cs" />
     <Compile Include="Stall\StallEntity.cs" />
-    <Compile Include="Template\IplTemplate.cs" />
-    <Compile Include="Template\ITemplate.cs" />
-    <Compile Include="Template\TemplateEntity.cs" />
     <Compile Include="RoleModule\IplRoleModule.cs" />
     <Compile Include="RoleModule\IRoleModule.cs" />
     <Compile Include="RoleModule\RoleModuleEntity.cs" />

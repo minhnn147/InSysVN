@@ -93,11 +93,6 @@ namespace LIB.Product
                 return null;
             }
         }
-        //public ResultMessageModel Products_SyncNew(int WarehouseId)
-        //{
-        //    _APIService = SingletonIpl.GetInstance<IplAPI>();
-        //    return _APIService.API_Warehouses_SyncNewProduct(WarehouseId).Result;
-        //}
         public bool UpdateSellPrice(long ProductId, decimal SellPriceShop, int WarehouseId)
         {
             try
@@ -128,13 +123,13 @@ namespace LIB.Product
                 return null;
             }
         }
-        public bool CheckByBarcode(string Barcode)
+        public bool CheckName(string Name)
         {
             try
             {
                 DynamicParameters param = new DynamicParameters();
-                param.Add("@Barcode", Barcode);
-                if (unitOfWork.Procedure<int>("sp_Product_CheckByBarcode", param).SingleOrDefault() > 0)
+                param.Add("@Barcode", Name);
+                if (unitOfWork.Procedure<int>("sp_Product_CheckName", param).SingleOrDefault() > 0)
                 {
                     return true;
                 }
@@ -172,11 +167,9 @@ namespace LIB.Product
                 param.Add("@Id", product.Id);
                 param.Add("@ProductCategory", product.ProductCategory);
                 param.Add("@ProductName", product.ProductName);
-                param.Add("@Barcode", product.Barcode);
-                param.Add("@InventoryNumber", product.Quantity);
                 param.Add("@ComputeUnit", product.ComputeUnit);
                 param.Add("@Price", product.Price);
-                param.Add("@SellPrice", product.Price);
+                param.Add("@Specifications", product.Specifications);
                 param.Add("@Description", product.Description);
                 return unitOfWork.Procedure<ProductEntity>("sp_Products_InsertOrUpdate", param).SingleOrDefault();
             }
@@ -201,22 +194,53 @@ namespace LIB.Product
                 return null;
             }
         }
-        public int SaveSyncData(string xml)
+        public bool UpdateProductImage(string base64Image, long ProductId, string PathServer, string PathFile)
         {
             try
             {
-                const string procedure = "Jod_Products_SaveSyncData";
+                UploadFile.UploadImageWithBase64(base64Image, PathServer, PathFile);
                 var param = new DynamicParameters();
-                param.Add("@xml", xml);
-                var result = unitOfWork.Procedure<int>(procedure, param).FirstOrDefault();
-                return result;
+                param.Add("@Id", ProductId);
+                param.Add("@pathimage", PathFile);
+                return unitOfWork.ProcedureExecute("SP_Products_UpdateImage", param);
             }
             catch (Exception ex)
             {
-                throw ex;
+                Log.Error(ex);
+                return false;
             }
 
         }
-
+        public bool UpdateStatus(int productId)
+        {
+            try
+            {
+                var p = new DynamicParameters();
+                p.Add("@Id", productId);
+                var flag = unitOfWork.ProcedureExecute("sp_Products_UpdateStatus", p);
+                return flag;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return false;
+            }
+        }
+        public bool DeletebyProductId(int id)
+        {
+            try
+            {
+                bool res = false;
+                var p = new DynamicParameters();
+                p.Add("@Id", id);
+                res = (bool)unitOfWork.ProcedureExecute("sp_Prodcuts_Delete", p);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                throw;
+            }
+        }
     }
 }

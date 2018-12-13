@@ -15,45 +15,33 @@ namespace LIB.Product
     {
         #region Properties
         public long? Id { get; set; }
-
         [ExcelColumn("A")]
         [DisplayName("Danh mục")]
-        public string ProductCategory { get; set; }
-
+        public int ProductCategory { get; set; }
         [ExcelColumn("B")]
         [DisplayName("Tên sản phẩm")]
         public string ProductName { get; set; }
-
-        [ExcelColumn("C")]
-        [DisplayName("Barcode")]
-        public string Barcode { get; set; }
-
         [XmlElement(IsNullable = false)]
         [ExcelColumn("D")]
         [DisplayName("Số lượng")]
         public int Quantity { get; set; }
-
         [ExcelColumn("E")]
         [DisplayName("Đơn vị tính")]
         public string ComputeUnit { get; set; }
-
         [ExcelColumn("F")]
         [DisplayName("Giá")]
         public decimal? Price { get; set; }
-
-        public string MainImage { get; set; }
         public string Image { get; set; }
-
         [ExcelColumn("H")]
         [DisplayName("Mô tả")]
         public string Description { get; set; }
-
         public bool Status { get; set; }
-
         [DisplayName("Ngày tạo")]
         public DateTime? CreatedDate { get; set; }
-
         public DateTime? ModifiedDate { get; set; }
+        public string Specifications { get; set; }
+        public bool isDel { get; set; }
+        public string CategoryName { get; set; }
         #endregion
     }
     public class ProductEntityMore
